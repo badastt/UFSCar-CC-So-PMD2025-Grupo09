@@ -24,4 +24,4 @@ Os dados vão ser adquiridos através da API do arXiv para Python, onde serão p
 Esses dados extraídos serão colocados no mongoDB, além disso, parte dos dados serão processados para serem usados no Neo4j, isso incluí os títulos, ids, categorias e as citações. 
 
 ## 4. Fluxograma:
-colocar link
+![fluxograma](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/Fluxograma_PMD.png "Fluxograma")
