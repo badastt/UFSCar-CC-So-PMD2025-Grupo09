@@ -1,9 +1,0 @@
-#!/bin/bash
-
-DB_NAME="arxiv"
-COLLECTION="papers"
-
-for file in $(ls data_chunk_*.ndjson 2>/dev/null | sort -V); do
-	echo $file 
-	#mongoimport --db "$DB_NAME" --collection "$COLLECTION" --file "$file" --type=json
-done
