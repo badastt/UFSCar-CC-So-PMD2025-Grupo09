@@ -1,0 +1,28 @@
+{
+   "stamp" : true,
+   "sources" : [
+      {
+         "usage" : "toplevel",
+         "filename" : "main.tex"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "bibliography.bib"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "elsarticle-harv.bst"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "elsarticle-num-names.bst"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "elsarticle-num.bst"
+      }
+   ],
+   "process" : {
+      "compiler" : "pdflatex"
+   }
+}

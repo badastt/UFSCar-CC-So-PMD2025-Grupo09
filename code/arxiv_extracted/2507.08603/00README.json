@@ -1,0 +1,25 @@
+{
+   "sources" : [
+      {
+         "usage" : "toplevel",
+         "filename" : "paper.tex"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "acl_natbib.bst"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "iclr2025_conference.bib"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "iclr2025_conference.bst"
+      }
+   ],
+   "version" : 2,
+   "texlive_version" : 2023,
+   "process" : {
+      "compiler" : "pdflatex"
+   }
+}

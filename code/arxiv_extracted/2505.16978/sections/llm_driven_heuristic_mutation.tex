@@ -1,0 +1,237 @@
+\section{LLM-Driven Hybrid Genetic Algorithm}
+\label{sec:ldhm_ga}
+The results of the baselines demonstrate the unsatisfactory performance of LLMs in grammar generation. To address this, we propose an LLM-driven hybrid genetic algorithm, namely \NAME, a novel algorithm inspired by the concept of genetic algorithms. The following sections detail \NAME and elaborate on our experiment settings, results, and analysis.
+
+\subsection{Methodology}
+\NAME consists of four main components: Fitness, Selection, Crossover, and Mutation. It begins by prompting an LLM to generate an initial population of candidate grammars from positive and negative examples. In each generation, the $\mathrm{Fitness}$ function scores each candidate and the $\mathrm{Select}$ function chooses a subset of the population. To form a new population, the $\mathrm{Cross}$ function operates on two randomly selected candidates from this subset to generate a new candidate, which is then modified by the $\mathrm{Mutate}$ function and added to the new population, until the maximum population size is reached. The new population then advances to the next generation. We provide pseudocode in Algorithm~\ref{algo:ldhga} in Appendix~\ref{appendix:LDHGA}. We detail each component as follows:
+
+\paragraph{Fitness}
+Given a generated grammar $\guess$, if it is syntactically incorrect, it is assigned a score of $-1$. 
+% Thus, the fitness function for an empty $\mathcal{E}^{\mathcal{G}}$ is given as $\mathrm{Fitness}(\mathcal{G},\mathcal{P},\mathcal{N}) = -1$.
+For a valid grammar, we define two indicator functions:
+\begin{align*}
+\mathbb{I}_{\mathcal{A}}(\guess, p) &=
+\begin{cases}
+1 & \text{if } p \in \languageOf{\guess},\\
+0 & \text{otherwise}.
+\end{cases}\\
+\mathbb{I}_{\mathcal{R}}(\guess, n) &=
+\begin{cases}
+1 & \text{if } n \notin \languageOf{\guess},\\
+0 & \text{otherwise}.
+\end{cases}
+\end{align*}
+The $\mathrm{Fitness}$ function $\mathrm{Fitness}(\guess,\mathcal{P},\mathcal{N})$ is then defined as: 
+\[
+\sum_{p_i\in \mathcal{P}} 
+\mathbb{I}_{\mathcal{A}}(\guess,\,p_i) 
++ \sum_{n_i \in \mathcal{N}} 
+\mathbb{I}_{\mathcal{R}}(\guess,\,n_i). 
+\]
+% where 
+% $\mathcal{A}=\mathbb{I}_{\mathcal{A}}(\mathcal{E}^{\mathcal{G}},\,p_i)$ 
+% and $\mathcal{D}=\mathbb{I}_{\mathcal{R}}(\mathcal{E}^\mathcal{G},\,n_i)$.
+
+\paragraph{Selection}
+ Let $\grammarset = \{\guess_1, \guess_2, \ldots, \guess_k\}$ be a population of candidate grammars.
+% 
+ % $E = [\mathcal{E}^{\mathcal{G}_1},\mathcal{E}^{\mathcal{G}_2},\dots,\mathcal{E}^{\mathcal{G}_k}]$ 
+ % be a set of grammar edge sets representing a population of candidates. 
+ %
+ Each $\guess_i \in \grammarset$ is assigned a fitness score $s_i \in S$ by the $\mathrm{Fitness}$ function, where $S = [s_1,s_2,\dots,s_k]$ is a sequence of their corresponding scores. We define the $\mathrm{Select}$ function as:
+ $$
+\mathrm{Select}(\grammarset,S) = \{\guess_{\sigma(1)}, \guess_{\sigma(2)}, \dots, \guess_{\sigma(\frac{k}{2})}\},
+$$
+where $\sigma : \{1, 2, \dots, k\} \to \{1, 2, \dots, k\}$ is a permutation of the indices such that: $s_{\sigma(1)} \geq s_{\sigma(2)} \geq \dots \geq s_{\sigma(k)}$.
+% $$
+% \mathrm{Select}(E,S) = [\mathcal{E}^{\mathcal{G}_{\sigma(1)}}, \mathcal{E}^{\mathcal{G}_{\sigma(2)}}, \dots, \mathcal{E}^{\mathcal{G}_{\sigma(\lfloor k/2 \rfloor)}}],
+% $$
+% where $\sigma : \{1, 2, \dots, k\} \to \{1, 2, \dots, k\}$ is a permutation of the indices such that: \[s_{\sigma(1)} \geq s_{\sigma(2)} \geq \dots \geq s_{\sigma(k)}\]
+%
+Hence, half of the candidates from the population are selected in decreasing order of their fitness scores.
+
+\paragraph{Crossover}
+The crossover function splices the production rules from two grammars together, at a randomly chosen splicing point. 
+Let 
+$\guess_a$ and $\guess_b$ be two candidate grammars, with rules $R^*_a$ and $R^*_b$ respectively.
+%
+If both $R$ are empty, we return one grammar at random. If one grammar has a non-empty $R$, we return that grammar. Otherwise, we apply the crossover function with probability $\rho$ (the crossover rate). 
+
+
+The crossover operation works in the following way. Let $\ell = \min(|R^*_a|, |R^*_b|)$.
+First sample a crossover point
+$
+w \sim \mathrm{Uniform}(\{1,2,\dots,\ell\}).
+$
+Let $R_a^* = r^a_1, r^a_2 \ldots $ be the rules from $\guess_a$ and $R_b^*$ be the rules from $\guess_b$. We take the first $w-1$ rule sets from $R_a^*$ and then prefix these to the last $n-w$ rule sets from $R_b^*$, where $n = |R^*_b|$. This generates a new rule set $R' = \{r^1_a, \ldots, r^{w-1}_a, r^w_b, \ldots r^n_b\}$. 
+
+Crossover returns a new grammar $\bnf' = (V', \Sigma', \Pi', S_a, R')$, where $V'$ and $\Sigma'$ are all nonterminal and terminal symbols in $R'$, $\Pi'$ is all rules in $R'$, and $S_a$ is the start symbol from $\guess_a$.
+
+
+\paragraph{Mutation}
+We use two mutation methods: mutation by LLM, and local mutation. 
+We chose whether to mutate a grammar at all, with probability $\mu$ (the mutation rate). If the grammar has no production rules, we apply the LLM mutation. Otherwise, we apply local mutation with a probability $0.5$ and LLM mutation otherwise. 
+
+
+
+\paragraph{LLM-Driven Mutation}
+The LLM-driven mutation 
+uses $\guess$, $\mathcal{P}$, and $\mathcal{N}$ to prompt\footnote{Refer to Prompt Template~\ref{prompt:llm_driven_mutation} in Appendix~\ref{appendix:LDHGA} for the prompt we designed for LLM-driven mutation.} an LLM to produce a new grammar. In this approach, we expect that, with the knowledge and experience obtained by training on vast corpora, LLMs can heuristically provide more novel and dramatic modifications such as introducing new terminals or non-terminals, adding or removing production rules, or reshaping the structure of grammars, which is hard to approach with local mutation.
+
+\paragraph{Local Mutation}
+The local mutation is designed to produce incremental, targeted alterations to the grammar while preserving the majority of its original form. It is less flexible than LLM-driven mutation and it is unable to introduce new non-terminals or to drastically restructure grammars. However, it can not only potentially find a grammar candidate but also provide insights for LLM-driven mutation. Given a grammar $\guess$, with a set of sets of production rules $R^*$, local mutation comprises the following steps:
+
+\begin{itemize}
+    % \item \textbf{Rule Extraction.} 
+    % Let $\mathcal{E}(\mathcal{G}) = [(x_1, Y_1), \dots, (x_l, Y_l)]$ denote a sequence of $l$ elements in $\mathcal{G}$, where $(v_i, A_i) \in \mathrm{Comps}(\mathcal{G})$ is a element in $\mathcal{G}$, $v_i$ is a non-terminal symbol on the left side of a element, and $A_i$ is the corresponding sequence of alternatives on the right side of a element.
+
+    \item \textbf{Rule set selection} 
+    We sample an integer $i \;\sim\; \mathrm{Uniform}(\{1,\dots,|R|\})$. 
+    This index $i$ chooses the rule set  $r_i \in R^*$ that will be mutated.
+
+    \item \textbf{Shuffle} 
+    % We designed two types of alterations, $\mathrm{Shuffle}$ and $\mathrm{SpaceInsert}$. 
+%
+     The $\mathrm{Shuffle}$ mutation shuffles the order of symbols on the right-hand side of a production rule. 
+     That is, each rule is a mapping from a non-terminal $v$ to a sequence of non-terminal and terminal symbols $(V \cup \Sigma)^*$, and we shuffle this sequence randomly. For example, the rule set:
+    \verb+<e> ::= <e> "*" <e> | <e> "/" <e>+ with infix operators, may be shuffled to 
+    \verb+<e> ::= "*" <e> <e> | "/" <e> <e>+, switching to prefix operators.
+    
+    Shuffle is applied to all production rules in $r_i$.
+     
+    
+    % For $\mathrm{Shuffle}$, each rule  $y \in Y_r$ is shuffled in place (i.e., its internal sequence of symbols is permuted randomly). Formally,
+    % \begin{align*}
+    %     \mathrm{Shuffle}(Y_r) \;=\; \bigl[s_{\pi(1)},\, s_{\pi(2)},\, \dots,\, s_{\pi(|Y_r|)}\bigr],
+    % \end{align*}
+    % where $\pi$ is a permutation on the set $\{1,2,\dots,|Y_r|\}$ chosen uniformly at random. After $\mathrm{Shuffle}$, the production rules of $\mathcal{G}$ are changed leading to modifying the original $\mathcal{G}=(V,\Sigma,R,S)$ to $\mathcal{G}'=(V,\Sigma,R',S)$.
+
+
+    
+    \item \textbf{Space Insertion}
+    The $\mathrm{SpaceInsert}$ mutation inserts a randomly chosen number of whitespace terminal symbols \verb+"␣"+ into the right-hand side of a production rule. Given a rule $v_i \rightarrow \alpha$, Shuffle chooses the number of whitespace terminals to be inserted by sampling $I \sim \textrm{Uniform}(0,|\alpha|)$, where $|\alpha|$ is the number of symbols in $\alpha$. Each space is inserted before or after a randomly chosen symbol in $\alpha$.
+    As an example, the rule set:
+    \verb+<s> ::= <noun> <verb>+ may be changed to 
+    \verb+<s> ::= <noun> "␣" <verb>+.
+
+    For each production rule in $r_i$, we randomly decide whether $\mathrm{SpaceInsert}$ should be applied to that rule with a low probability\footnote{We fix it to 0.1.}.
+    
+    % and the whitespace non-terminal is added to the set of non-terminal symbols
+    % This means that no two spaces are inserted next to each other
+
+    
+    
+    % That is, given a sequence of nonterminal and terminal symbols, shuffle wil
+    
+    % is applied to each production rule in $r_i$
+
+    
+    % Our second mutation type is $\mathrm{SpaceInsert}$.
+    % $\mathrm{SpaceInsert}$ operates on the right hand side of each rule in the selected rule group $r_i$. Let the 
+    % With a small probability, a random number of whitespace terminals are inserted into $a$ at random places. Sample $I \sim \textrm{Uniform}(0,|Y_r|)$ and $I$ distinct positions $\mathcal{I} = \{i_1,i_2,\dots,i_I\}$. Let $\Box$ be a whitespace terminal. We define $\mathrm{SpaceInsert}$ as:
+    % \begin{align*}
+    % \mathrm{SpaceInsert}(Y_r)
+    % \;=\;
+    % \bigl[s'_{1},s'_{2}, \dots, s'_{|Y_r|+I}\bigr],
+    % \end{align*}
+    % in which, for each $s'_j \in \mathrm{SpaceInsert}(Y_r)$:
+    % \begin{align*}
+    % s'_{j} \;=\;
+    % \begin{cases}
+    % \Box
+    % & \text{if } j-1 \in \mathcal{I},\\
+    % s_{j - |\{\,\Box\mid i_{j}<j-1\}|}
+    % & \text{otherwise}.
+    % \end{cases}
+    % \end{align*}
+    % After $\mathrm{SpaceInsert}$, since new whitespace terminals are introduced, the original $\mathcal{G}=(V,\Sigma,R,S)$ becomes $\mathcal{G}'=(V,\Sigma \cup \{\Box\},R,S)$.
+
+
+    % With a small probability $n$ a random number of whitespace terminals are inserted into $a$ at random places. Sample $I \sim \textrm{Uniform}(0,|Y_r|)$ and $I$ distinct positions $\mathcal{I} = \{i_1,i_2,\dots,i_I\}$. Let $\Box$ be a whitespace terminal. We define $\mathrm{SpaceInsert}$ as:
+    % \begin{align*}
+    % \mathrm{SpaceInsert}(Y_r)
+    % \;=\;
+    % \bigl[s'_{1},s'_{2}, \dots, s'_{|Y_r|+n}\bigr],
+    % \end{align*}
+    % in which, for each $s'_j \in \mathrm{SpaceInsert}(Y_r)$:
+    % \begin{align*}
+    % s'_{j} \;=\;
+    % \begin{cases}
+    % \Box
+    % & \text{if } j-1 \in \mathcal{I},\\
+    % s_{j - |\{\,\Box\mid i_{j}<j-1\}|}
+    % & \text{otherwise}.
+    % \end{cases}
+    % \end{align*}
+    % After $\mathrm{SpaceInsert}$, since new whitespace terminals are introduced, the original $\mathcal{G}=(V,\Sigma,R,S)$ becomes $\mathcal{G}'=(V,\Sigma \cup \{\Box\},R,S)$.
+
+    
+    
+    % To combine both $\mathrm{Shuffle}$ and $\mathrm{SpaceInsert}$, we have:  
+    % $$
+    % Y_r^\prime \;=\; \mathrm{Shuffle}(Y_r) \;\oplus\; \mathrm{SpaceInsert}(Y_r),
+    % $$
+    % where $\oplus$ denotes a union of two alternations. 
+    % % The resulting mutated set of alternatives is denoted $A_r^\prime = \{\,a^\prime \mid a \in A_r\}$.
+
+    % \item \textbf{Grammar Reconstruction.}
+    % We then replace the original element $(x_r,Y_r)$ with the mutated one $\bigl(x_r, Y_r^\prime\bigr)$. The updated element is then mapped back to $\mathcal{G}$ to form elements of a new grammar $\mathcal{G}'$ as a grammar edge sequence:
+    % \begin{align*}
+    % \mathcal{E}^{\mathcal{G}'} &= 
+    %    \bigl(\mathcal{E}^\mathcal{G} \setminus \{(x_r, Y_r)\}\bigr) \cup \{(x_r, Y_r')\}.
+    % \end{align*}
+    % Thus, we obtain a new grammar $\mathcal{G}' = (V,\Sigma,R',S)$. If $\mathrm{SpaceInsert}$ is invoked, $\mathcal{G}' = (V,\Sigma \cup \{\Box\},R',S)$.
+\end{itemize}
+    The $\mathrm{Shuffle}$ alteration heuristic is motivated by two key insights. First, shuffling the right-hand side of production rules may yield a grammar that accepts more positive examples and rejects more negative ones.  Second, although $\mathrm{Shuffle}$ may rarely yield a better candidate for a complex target grammar, the new variant of the grammar produced from $\mathrm{Shuffle}$ is expected to provide alternative perspectives and new insights for LLMs to help generate subsequent grammars in future generations.
+    
+    The $\mathrm{SpaceInsert}$ alteration was introduced because some LLMs tended to omit explicit space symbols between symbols in an alternative, resulting in degraded grammar generation, even if they were prompted to pay attention to space inclusion\footnote{Refer to Prompt Template~\ref{prompt:direct_prompting} in Appendix~\ref{appendix:DP} for details.}. We expect that incorporating $\mathrm{SpaceInsert}$ will offer insights for LLMs of the explicit inclusion of spaces to thereby enhance performance.
+    
+    % For instance, when tasked with generating a simple grammar for a calculator that accepts only Polish notation, some LLMs produce a grammar such as:
+    % $$
+    % \texttt{<cal>}\vcentcolon \vcentcolon=\texttt{<number>} \texttt{ "+" } \texttt{<number>}
+    % $$
+    % However, after $\mathrm{Shuffle}$, a new grammar can be obtained:
+    % $$
+    % \texttt{<cal>}\vcentcolon \vcentcolon=\texttt{"+" }\texttt{<number> }\texttt{<number>}
+    % $$ 
+
+
+\subsection{Experiment Settings}
+In addition to a set of positive and negative examples and an LLM, \NAME takes four parameters: \emph{population size} (grammars per generation), \emph{generations} (number of evolution iterations), \emph{crossover rate} (probability of crossover), \emph{mutation rate} (probability of mutation). In our experiments, we set these to 10, 5, 0.7, and 0.3, respectively.
+
+We selected the same 8 LLMs as the DP and OPF baselines, setting maximum tokens to 2000 and temperature to 0.7. In \NAME, a nonzero temperature is necessary for diversity. 
+% Nevertheless, we expect that after multiple generations, it can find an optimal grammar. 
+To ensure it does not significantly impact results and show its robustness, we further repeat the experiments 5 times with \textit{GPT-3.5-Turbo} and \textit{GPT-4o}.
+
+\subsection{Results \& Analysis}
+
+% Diff, OF, and OG
+\begin{table}[t]
+  \centering
+  \begin{tabular}{lcccc}
+    \toprule
+    \textbf{Methods} & $\diff^{\diamond}$ & $\of$ & $\og$ & $\tu^\diamond$\\
+    \midrule
+     DP     & 1.12 &  3.83 & 0.63 &  88.74 \\
+     OPF    & 1.10 &  4.72 & 1.31  & 90.76 \\
+     \NAME  & 1.19 &  4.44  & 0.92  & 91.27  \\
+    \bottomrule
+  \end{tabular}
+  \caption{The averages of $\diff^\diamond$, $\of$(\%), $\og$(\%), and $\tu^\diamond$(\%) across all LLMs.}
+  \label{tab:other_metrics}
+\end{table}
+
+As shown in Table~\ref{tab:results_for_all}, \NAME substantially boosts $\sx$ for most LLMs. For example, \textit{Qwen:72b-Instruct} gains 29\% over DP and 27\% over OPF. Even for LLMs already improved by OPF, such as \textit{Codestral:22b} with an 18\% improvement, \NAME adds an additional 9\%. Meanwhile, \textit{Starcoder2:15b-Instruct}, which experiences a 16\% drop under OPF, achieves a 22\% improvement compared to DP and a 38\% improvement over OPF, with \NAME. On average, it improves $\sx$ 13.88\% compared to DP and 9.88\% over OPF.
+
+While enhancing $\sx$ is essential, the ultimate objective is to improve $\se$. As shown in Table~\ref{tab:results_for_all}, our method significantly boosts $\se$ for all LLMs except \textit{Mistral:7b-Instruct}. For example, with \NAME, \textit{GPT-4o} rises from 84\% with DP and 85\% with OPF to 93\%, and \textit{GPT-3.5-Turbo}, noted for low semantic accuracy, increases by 24\% over DP and 23\% over OPF. Notably, although the contribution from the enhancement of $\sx$ is essential to $\se$, \NAME does not rely solely on enhancing $\sx$ to achieve significant improvement of $\se$, as five LLMs demonstrated higher $\se$ increases than their $\sx$. Across the selected LLMs, the average $\se$ improvement is 16.5\% compared to DP and 15.13\% compared to OPF. 
+
+We further analyzed the performance as the number of non-terminals and production rules increases. For non-terminals, we partition the dataset into 3 groups: $C_1$ (1–3 non-terminals), $C_2$ (4-6 non-terminals), and $C_3$ (7-9 non-terminals). For production rules, we split the dataset into another 3 groups: $P_1$ (1–6 production rules), $P_2$ (6-15 production rules), and $P_3$ (greater than 16 production rules). We observed that the performance of LLMs decreases as the number of non-terminals and production rules increases. Nevertheless, \NAME still substantially improves both $\sx$ and $\se$\footnote{Refer to Tables~\ref{tab:nonterminals_results} and~\ref{tab:prs_results} in Appendix~\ref{appendix:nonterminals_results} and~\ref{appendix:prs_results} for details.}.
+
+Furthermore, as shown in Table~\ref{tab:other_metrics}, $\of$ does not significantly increase in \NAME, indicating that the substantial improvements observed in both the $\sx$ and $\se$ for \NAME are not attributed to overfitting\footnote{Refer to Tables~\ref{tab:fgi_diff},~\ref{tab:fgi_of}, and~\ref{tab:fgi_og} in Appendix~\ref{appendix:fgi_results} for the more details.}.
+
+Moreover, we also conducted a qualitative analysis of how \NAME improves $SX$ and $SE$. For $SX$, \NAME significantly reduces the issues of unsupported symbols injection and misplaced brackets. However, it fails to address the issue of unwrapped non-terminals, which is also the issue mainly happened in \textit{Mistral:7b-Instruct}. Unlike OPF, which benefits from more explicit syntax error feedback, our approach lacks such direct syntax corrective guidance, meaning that if an LLM inherently struggles to generate syntactically correct grammars, our method may fail to produce valid candidates and process evolution, thereby lowering both $SX$ and $SE$. Nevertheless, as long as at least a few candidates are generated in correct syntax, \NAME can optimize their generations during the evolutionary process to mitigate the aforementioned issues and improve $\sx$. For $\se$, attributing the significant improvement is complex. However, we still observed two phenomena. First, after applying \NAME, terminals that were not previously considered in the grammars generated by DP or OPF have been introduced. Second, the semantic errors that were caused by the absence of space terminals in DP or OPF have been alleviated.
+
+Due to the relatively high temperature of 0.7 used for \NAME, we repeated the experiments 5 times with \textit{GPT-4o} and \textit{GPT-3.5-Turbo}\footnote{Refer to Table~\ref{tab:5_times} in Appendix~\ref{appendix:multiple_experiments} for details.} to ensure robustness. The averages of $\sx$ for \textit{GPT-4o} and \textit{GPT-3.5-Turbo} are 95.8\% and 98.6\%, with standard deviations 0.4\% and 0.49\% respectively, while the averages of $\se$ are 93.2\% and 61.6\% with standard deviations 0.4\% and 0.49\% respectively. These results indicate that setting the temperature to 0.7 has a negligible impact on performance and show the robustness of \NAME.
+
+
+

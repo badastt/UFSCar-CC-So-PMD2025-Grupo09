@@ -1,0 +1,93 @@
+% This must be in the first 5 lines to tell arXiv to use pdfLaTeX, which is strongly recommended.
+\pdfoutput=1
+% In particular, the hyperref package requires pdfLaTeX in order to break URLs across lines.
+
+\documentclass[11pt]{article}
+
+% Remove the "review" option to generate the final version.
+\usepackage{acl}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+
+% For proper rendering and hyphenation of words containing Latin characters (including in bib files)
+\usepackage[T1]{fontenc}
+% For Vietnamese characters
+% \usepackage[T5]{fontenc}
+% See https://www.latex-project.org/help/documentation/encguide.pdf for other character sets
+
+% This assumes your files are encoded as UTF8
+\usepackage[utf8]{inputenc}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{float}
+\usepackage{inconsolata}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\usepackage{booktabs}
+\usepackage{multirow,multicol}
+\usepackage{microtype}
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{tabularx}
+\usepackage{subfigure}
+\usepackage{layouts}
+\usepackage{cleveref}
+\usepackage{todonotes}
+\usepackage{xcolor}
+\usepackage{soul}
+
+% some new defined commands
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+\newcommand{\taskfullname}{Multimodal Review Helpfulness Prediction}
+\newcommand{\taskabbrname}{MRHP}
+\newcommand{\modelname}{PREMISE}
+\newcommand{\modelfullname}{PREdict with MatchIng ScorEs}
+\newcommand{\csfigheight}{1.1cm}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+
+% \title{Enhancing Multimodal Review Helpfulness Ranking with Multi-scale Matching Features}
+\title{PREMISE: Matching-based Prediction for Accurate Review Recommendation}
+
+\author{Wei Han$^\dagger$, Hui Chen$^\clubsuit$
+\thanks{Corresponding to hui.chen@nus.edu.sg}
+, Soujanya Poria$^\dagger$,\\
+  $^\dagger$ Singapore University of Technology and Design, Singapore\\
+  $^\clubsuit$ National University of Singapore, Singapore \\
+}
+
+\begin{document}
+\crefformat{section}{\S#2#1#3}
+\crefformat{subsection}{\S#2#1#3}
+\crefname{algocf}{alg.}{algs.}
+\Crefname{algocf}{Algorithm}{Algorithms}
+
+\maketitle
+\input{Contents/Abstract}
+\input{Contents/Introduction}
+\input{Contents/Related_Work}
+\input{Contents/Method}
+\input{Contents/Experiments}
+\input{Contents/Analysis}
+\input{Contents/Conclusion}
+\input{Contents/limitations}
+
+% Entries for the entire Anthology, followed by custom entries
+\bibliography{anthology,custom}
+\bibliographystyle{acl_natbib}
+
+\appendix
+
+\input{Contents/Appendix}
+
+\end{document}

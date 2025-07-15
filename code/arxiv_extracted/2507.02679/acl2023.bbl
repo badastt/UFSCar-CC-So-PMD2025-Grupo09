@@ -1,0 +1,221 @@
+\begin{thebibliography}{44}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Achiam et~al.(2023)Achiam, Adler, Agarwal, Ahmad, Akkaya, Aleman, Almeida, Altenschmidt, Altman, Anadkat et~al.}]{achiam2023gpt}
+Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia~Leoni Aleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et~al. 2023.
+\newblock Gpt-4 technical report.
+\newblock \emph{arXiv preprint arXiv:2303.08774}.
+
+\bibitem[{{AI@Meta}(2024)}]{llama3modelcard}
+{AI@Meta}. 2024.
+\newblock \href {https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md} {Llama 3 model card}.
+\newblock \emph{GitHub Repository}.
+
+\bibitem[{An et~al.(2022)An, Liu, and Zhang}]{an2022learning}
+Haozhe An, Xiaojiang Liu, and Donald Zhang. 2022.
+\newblock Learning bias-reduced word embeddings using dictionary definitions.
+\newblock In \emph{Findings of the Association for Computational Linguistics: ACL 2022}, pages 1139--1152.
+
+\bibitem[{Andonian(2023)}]{gpt-neox-library}
+Alex Andonian. 2023.
+\newblock \href {https://doi.org/10.5281/zenodo.5879544} {{GPT-NeoX: Large Scale Autoregressive Language Modeling in PyTorch}}.
+
+\bibitem[{Bailey et~al.(2022)Bailey, Williams, and Cimpian}]{bailey2022people_men}
+April~H. Bailey, Adina Williams, and Andrei Cimpian. 2022.
+\newblock \href {https://doi.org/10.1126/sciadv.abm2463} {Based on billions of words on the internet, people = men}.
+\newblock \emph{Science Advances}, 8(13).
+
+\bibitem[{Bhaskaran and Bhallamudi(2019)}]{bhaskaran2019good}
+Jayadev Bhaskaran and Isha Bhallamudi. 2019.
+\newblock Good secretaries, bad truck drivers? occupational gender stereotypes in sentiment analysis.
+\newblock \emph{arXiv preprint arXiv:1906.10256}.
+
+\bibitem[{Blodgett et~al.(2021)Blodgett, Lopez, Olteanu, Sim, and Wallach}]{blodgett2021stereotyping}
+Su~Lin Blodgett, Gilsinia Lopez, Alexandra Olteanu, Robert Sim, and Hanna Wallach. 2021.
+\newblock Stereotyping norwegian salmon: An inventory of pitfalls in fairness benchmark datasets.
+\newblock In \emph{ACL}.
+
+\bibitem[{Blok et~al.(2007)Blok, Medin, and Osherson}]{blok2007induction}
+Sergey~V Blok, Douglas~L Medin, and Daniel~N Osherson. 2007.
+\newblock Induction as conditional probability judgment.
+\newblock \emph{Memory \& Cognition}.
+
+\bibitem[{Bojanowski et~al.(2017)Bojanowski, Grave, Joulin, and Mikolov}]{bojanowski2017enriching}
+Piotr Bojanowski, Edouard Grave, Armand Joulin, and Tomas Mikolov. 2017.
+\newblock Enriching word vectors with subword information.
+\newblock \emph{TACL}.
+
+\bibitem[{Caliskan et~al.(2017)Caliskan, Bryson, and Narayanan}]{caliskan2017semantics}
+Aylin Caliskan, Joanna~J Bryson, and Arvind Narayanan. 2017.
+\newblock Semantics derived automatically from language corpora contain human-like biases.
+\newblock \emph{Science}.
+
+\bibitem[{Chang et~al.(2023)Chang, Wang, Wang, Wu, Zhu, Chen, Yang, Yi, Wang, Wang et~al.}]{chang2023survey}
+Yupeng Chang, Xu~Wang, Jindong Wang, Yuan Wu, Kaijie Zhu, Hao Chen, Linyi Yang, Xiaoyuan Yi, Cunxiang Wang, Yidong Wang, et~al. 2023.
+\newblock A survey on evaluation of large language models.
+\newblock \emph{arXiv preprint arXiv:2307.03109}.
+
+\bibitem[{DeepSeek-AI(2025)}]{deepseekai2025}
+DeepSeek-AI. 2025.
+\newblock \href {http://arxiv.org/abs/2501.12948} {Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning}.
+
+\bibitem[{Devlin et~al.(2019)Devlin, Chang, Lee, and Toutanova}]{Jacob:19}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2019.
+\newblock Bert: Pre-training of deep bidirectional transformers for language understanding.
+\newblock In \emph{NAACL-HLT}.
+
+\bibitem[{Felkner et~al.(2023)Felkner, Chang, Jang, and May}]{felkner2023winoqueer}
+Virginia~K Felkner, Ho-Chun~Herbert Chang, Eugene Jang, and Jonathan May. 2023.
+\newblock Winoqueer: A community-in-the-loop benchmark for anti-lgbtq+ bias in large language models.
+\newblock \emph{arXiv preprint arXiv:2306.15087}.
+
+\bibitem[{Gallegos et~al.(2023)Gallegos, Rossi, Barrow, Tanjim, Kim, Dernoncourt, Yu, Zhang, and Ahmed}]{gallegos2023bias}
+Isabel~O Gallegos, Ryan~A Rossi, Joe Barrow, Md~Mehrab Tanjim, Sungchul Kim, Franck Dernoncourt, Tong Yu, Ruiyi Zhang, and Nesreen~K Ahmed. 2023.
+\newblock Bias and fairness in large language models: A survey.
+\newblock \emph{arXiv preprint arXiv:2309.00770}.
+
+\bibitem[{Gehman et~al.(2020)Gehman, Gururangan, Sap, Choi, and Smith}]{gehman2020realtoxicityprompts}
+Samuel Gehman, Suchin Gururangan, Maarten Sap, Yejin Choi, and Noah~A Smith. 2020.
+\newblock Realtoxicityprompts: Evaluating neural toxic degeneration in language models.
+\newblock \emph{arXiv preprint arXiv:2009.11462}.
+
+\bibitem[{Goldfarb-Tarrant et~al.(2020)Goldfarb-Tarrant, Marchant, S{\'a}nchez, Pandya, and Lopez}]{goldfarb2020intrinsic}
+Seraphina Goldfarb-Tarrant, Rebecca Marchant, Ricardo~Mu{\~n}oz S{\'a}nchez, Mugdha Pandya, and Adam Lopez. 2020.
+\newblock Intrinsic bias metrics do not correlate with application bias.
+\newblock \emph{arXiv preprint arXiv:2012.15859}.
+
+\bibitem[{Gonzalez-Marquez(2007)}]{gonzalez2007methods}
+Monica Gonzalez-Marquez. 2007.
+\newblock \emph{Methods in cognitive linguistics}, volume~18.
+\newblock John Benjamins Publishing.
+
+\bibitem[{Grave et~al.(2018)Grave, Bojanowski, Gupta, Joulin, and Mikolov}]{grave2018learning}
+Edouard Grave, Piotr Bojanowski, Prakhar Gupta, Armand Joulin, and Tomas Mikolov. 2018.
+\newblock Learning word vectors for 157 languages.
+\newblock In \emph{LREC}.
+
+\bibitem[{Iacobacci(2015)}]{iacobacci2015sensembed}
+Ignacio Iacobacci. 2015.
+\newblock Sensembed: Learning sense embeddings for word and relational similarity.
+\newblock In \emph{ACL}.
+
+\bibitem[{Kaneko et~al.(2022)Kaneko, Imankulova, Bollegala, and Okazaki}]{kaneko2022gender}
+Masahiro Kaneko, Aizhan Imankulova, Danushka Bollegala, and Naoaki Okazaki. 2022.
+\newblock Gender bias in masked language models for multiple languages.
+\newblock \emph{arXiv preprint arXiv:2205.00551}.
+
+\bibitem[{Kaukonen et~al.(2025)Kaukonen, Sabir, and Sharma}]{kaukonen2025aunt}
+Elisabeth Kaukonen, Ahmed Sabir, and Rajesh Sharma. 2025.
+\newblock How aunt-like are you? exploring gender bias in the genderless estonian language: A case study.
+\newblock In \emph{NoDaLiDa/Baltic-HLT 2025}.
+
+\bibitem[{Kocielnik et~al.(2023)Kocielnik, Prabhumoye, Zhang, Jiang, Alvarez, and Anandkumar}]{kocielnik2023biastestgpt}
+Rafal Kocielnik, Shrimai Prabhumoye, Vivian Zhang, Roy Jiang, R~Michael Alvarez, and Anima Anandkumar. 2023.
+\newblock Biastestgpt: Using chatgpt for social bias testing of language models.
+\newblock \emph{arXiv preprint arXiv:2302.07371}.
+
+\bibitem[{Kotek et~al.(2023)Kotek, Dockum, and Sun}]{gender-bias-llm}
+Hadas Kotek, Rikker Dockum, and David~Q. Sun. 2023.
+\newblock \href {https://arxiv.org/abs/2308.14921} {Gender bias in llms}.
+
+\bibitem[{Levesque et~al.(2012)Levesque, Davis, and Morgenstern}]{levesque2012winograd}
+Hector Levesque, Ernest Davis, and Leora Morgenstern. 2012.
+\newblock The winograd schema challenge.
+\newblock In \emph{Thirteenth international conference on the principles of knowledge representation and reasoning}.
+
+\bibitem[{Levine et~al.(2024)Levine, Huang, Wang, Batista, Szymanska, Ding, Chou, Pessiot, Effendi, Chiu et~al.}]{levine2024rakutenai}
+Aaron Levine, Connie Huang, Chenguang Wang, Eduardo Batista, Ewa Szymanska, Hongyi Ding, Hou~Wei Chou, Jean-Fran{\c{c}}ois Pessiot, Johanes Effendi, Justin Chiu, et~al. 2024.
+\newblock Rakutenai-7b: Extending large language models for japanese.
+\newblock \emph{arXiv e-prints}, pages arXiv--2403.
+
+\bibitem[{Levy et~al.(2021)Levy, Lazar, and Stanovsky}]{levy2021collecting}
+Shahar Levy, Koren Lazar, and Gabriel Stanovsky. 2021.
+\newblock Collecting a large-scale gender bias dataset for coreference resolution and machine translation.
+\newblock \emph{arXiv preprint arXiv:2109.03858}.
+
+\bibitem[{Mikolov et~al.(2013)Mikolov, Sutskever, Chen, Corrado, and Dean}]{Tomas:13}
+Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg~S Corrado, and Jeff Dean. 2013.
+\newblock Distributed representations of words and phrases and their compositionality.
+\newblock In \emph{NeurIPS}.
+
+\bibitem[{Nangia et~al.(2020)Nangia, Vania, Bhalerao, and Bowman}]{nangia2020crows}
+Nikita Nangia, Clara Vania, Rasika Bhalerao, and Samuel Bowman. 2020.
+\newblock Crows-pairs: A challenge dataset for measuring social biases in masked language models.
+\newblock In \emph{EMNLP}.
+
+\bibitem[{OpenAI(2022)}]{OpenAI}
+OpenAI. 2022.
+\newblock \href {https://openai.com/blog/chatgpt} {Chatgpt: Optimizing language models for dialogue}.
+
+\bibitem[{OpenAI(2024)}]{openai2024gpt4o}
+OpenAI. 2024.
+\newblock Gpt-4o system card.
+\newblock \url{https://openai.com/index/gpt-4o-system-card/}.
+\newblock Accessed: 2024-08-08.
+
+\bibitem[{Pennington(2014)}]{pennington2014glove}
+Jeffrey Pennington. 2014.
+\newblock Glove: Global vectors for word representation.
+\newblock \emph{EMNLP}.
+
+\bibitem[{Radford et~al.(2019)Radford, Wu, Child, Luan, Amodei, and Sutskever}]{radford2019language}
+Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever. 2019.
+\newblock Language models are unsupervised multitask learners.
+\newblock \emph{OpenAI blog}.
+
+\bibitem[{Rudinger et~al.(2018)Rudinger, Naradowsky, Leonard, and {Van Durme}}]{rudinger-EtAl:2018:N18}
+Rachel Rudinger, Jason Naradowsky, Brian Leonard, and Benjamin {Van Durme}. 2018.
+\newblock Gender bias in coreference resolution.
+\newblock In \emph{NAACL}.
+
+\bibitem[{Sheng et~al.(2019)Sheng, Chang, Natarajan, and Peng}]{sheng2019woman}
+Emily Sheng, Kai-Wei Chang, Premkumar Natarajan, and Nanyun Peng. 2019.
+\newblock The woman worked as a babysitter: On biases in language generation.
+\newblock \emph{arXiv preprint arXiv:1909.01326}.
+
+\bibitem[{Stanovsky et~al.(2019)Stanovsky, Smith, and Zettlemoyer}]{stanovsky-etal-2019-evaluating}
+Gabriel Stanovsky, Noah~A. Smith, and Luke Zettlemoyer. 2019.
+\newblock \href {https://doi.org/10.18653/v1/P19-1164} {Evaluating gender bias in machine translation}.
+\newblock In \emph{Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics}, pages 1679--1684, Florence, Italy. Association for Computational Linguistics.
+
+\bibitem[{Taylor(1953)}]{taylor1953cloze}
+Wilson~L Taylor. 1953.
+\newblock Cloze procedure: A new tool for measuring readability.
+\newblock \emph{Journalism quarterly}, 30(4):415--433.
+
+\bibitem[{Vig et~al.(2020)Vig, Gehrmann, Belinkov, Qian, Nevo, Singer, and Shieber}]{NEURIPS2020_92650b2e}
+Jesse Vig, Sebastian Gehrmann, Yonatan Belinkov, Sharon Qian, Daniel Nevo, Yaron Singer, and Stuart Shieber. 2020.
+\newblock Investigating gender bias in language models using causal mediation analysis.
+\newblock In \emph{NeurIPS}.
+
+\bibitem[{Wan and Chang(2024)}]{wan2024white}
+Yixin Wan and Kai-Wei Chang. 2024.
+\newblock White men lead, black women help: Uncovering gender, racial, and intersectional bias in language agency.
+\newblock \emph{arXiv preprint arXiv:2404.10508}.
+
+\bibitem[{Wang and Komatsuzaki(2021)}]{gpt-j}
+Ben Wang and Aran Komatsuzaki. 2021.
+\newblock {GPT-J-6B: A 6 Billion Parameter Autoregressive Language Model}.
+\newblock \url{https://github.com/kingoflolz/mesh-transformer-jax}.
+
+\bibitem[{Zhao et~al.(2017)Zhao, Wang, Yatskar, Ordonez, and Chang}]{zhao2017men}
+Jieyu Zhao, Tianlu Wang, Mark Yatskar, Vicente Ordonez, and Kai-Wei Chang. 2017.
+\newblock Men also like shopping: Reducing gender bias amplification using corpus-level constraints.
+\newblock \emph{arXiv preprint arXiv:1707.09457}.
+
+\bibitem[{Zhao et~al.(2018)Zhao, Wang, Yatskar, Ordonez, and Chang}]{zhao2018gender}
+Jieyu Zhao, Tianlu Wang, Mark Yatskar, Vicente Ordonez, and Kai-Wei Chang. 2018.
+\newblock Gender bias in coreference resolution: Evaluation and debiasing methods.
+\newblock \emph{arXiv preprint arXiv:1804.06876}.
+
+\bibitem[{Zhao et~al.(2024)Zhao, Ding, Jia, Wang, and Qian}]{zhao2024gender}
+Jinman Zhao, Yitian Ding, Chen Jia, Yining Wang, and Zifan Qian. 2024.
+\newblock Gender bias in large language models across multiple languages.
+\newblock \emph{arXiv preprint arXiv:2403.00277}.
+
+\bibitem[{Zhou et~al.(2022)Zhou, Kaneko, and Bollegala}]{zhou2022sense}
+Yi~Zhou, Masahiro Kaneko, and Danushka Bollegala. 2022.
+\newblock Sense embeddings are also biased--evaluating social biases in static and contextualised sense embeddings.
+\newblock \emph{arXiv preprint arXiv:2203.07523}.
+
+\end{thebibliography}

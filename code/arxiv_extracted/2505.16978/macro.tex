@@ -1,0 +1,84 @@
+\usepackage{todonotes}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{listings} % for lstlisting
+\usepackage{amsthm}
+\usepackage{centernot}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage[most]{tcolorbox}
+
+\theoremstyle{definition}
+\newtheorem{definition}{\textit{Definition}}[section]
+% define name for our approach and two baseliens
+\newcommand{\NAME}{HyGenar\xspace} 
+
+% define colors
+\definecolor{red}{RGB}{220, 50, 47}
+\definecolor{promptbg}{RGB}{240, 248, 255} 
+\definecolor{feedbackbg}{RGB}{255, 204, 204}
+
+
+% prompt block
+\newcounter{promptblockcounter}
+\renewcommand{\thepromptblockcounter}{\arabic{promptblockcounter}}
+\newenvironment{promptblock}[2][htbp]
+{
+    \refstepcounter{promptblockcounter}
+    \begin{tcolorbox}[
+        float, 
+        floatplacement=#1,
+        colback=promptbg,
+        colframe=blue!50!black,
+        boxrule=0.75pt, 
+        arc=3pt, 
+        title={Prompt Template~\thepromptblockcounter: #2}, 
+        before upper=\raggedright,
+    ]
+}
+{
+    \end{tcolorbox}
+}
+
+% parser feedback block
+\newcounter{feedbackblockcounter}
+\renewcommand{\thefeedbackblockcounter}{\arabic{feedbackblockcounter}}
+\newenvironment{feedbackblock}[2][htbp]
+{
+    \refstepcounter{feedbackblockcounter}
+    \begin{tcolorbox}[
+        float, 
+        floatplacement=#1,
+        colback=feedbackbg,
+        colframe=red!70!black,
+        boxrule=0.75pt, 
+        arc=3pt, 
+        title={Parser Feedback ~\thefeedbackblockcounter: #2}, 
+        before upper=\raggedright,
+    ]
+}
+{
+    \end{tcolorbox}
+}
+
+\newcommand{\rules}{R}
+\newcommand{\bnf}{G}
+\newcommand{\guess}{\bnf^*}
+\newcommand{\bnfref}{\bnf^{\mathit{ref}}}
+\newcommand{\cfg}{\mathcal{G}}
+\newcommand{\languageOf}[1]{\ensuremath{\mathcal{L}(#1)}}
+\newcommand{\diff}{{\mathit{Diff}}}
+\newcommand{\of}{\mathit{OF}}
+\newcommand{\og}{\mathit{OG}}
+\newcommand{\sx}{\mathit{SX}}
+\newcommand{\se}{\mathit{SE}}
+\newcommand{\tu}{\mathit{TU}}
+\newcommand{\grammarset}{\mathbb{G}}
+
+\newenvironment{squishitem}{
+\begin{itemize}
+   \setlength{\itemsep}{1pt}
+   \setlength{\parskip}{0pt}
+   \setlength{\parsep}{0pt}
+}
+{\end{itemize}}

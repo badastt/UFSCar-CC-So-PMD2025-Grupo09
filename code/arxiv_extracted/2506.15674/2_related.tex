@@ -1,0 +1,28 @@
+\section{Background and Related Work}
+
+
+\paragraph{Contextual privacy in LLMs.} 
+
+Contextual integrity defines privacy as the proper flow of information within a social context \citep{nissenbaum_privacy_2004,shvartzshnaider2025position}, a key concern for personal agents handling sensitive data. While most research has focused on training-time leakage \citep{siwon2023neurips,brown-2024-improved,puerto-etal-2025-scaling}, inference-time privacy remains underexplored \citep{evertz2024whispers,yan2025protecting}.
+
+Benchmarks like DecodingTrust \citep{wang2023decodingtrust}, AirGapAgent \citep{bagdasarian2024airgapagent}, CONFAIDE \citep{mireshghallah2024can}, PrivaCI \citep{li2025privaci}, and CI-Bench \citep{cheng2024ci} evaluate contextual adherence through structured prompts. PrivacyLens \citep{privacylens} and AgentDAM \citep{agentdam} simulate agentic tasks, though all target non-reasoning models.
+
+Recent methods attempt to mitigate inference-time leakage: TextObfuscator masks sensitive spans during generation \citep{zhou2023textobfuscator}, Papillon redacts and later restores PII (personally identifiable information) during API calls \citep{siyan2024papillon}, and prompt obfuscation techniques hide intent or content through rewriting \citep{pape2024prompt}. While effective at surface-level protection, these approaches fail to account for how reasoning steps themselves can reintroduce or infer sensitive information during inference.
+
+
+\paragraph{Test-time compute and reasoning models.} 
+
+Test-time compute (TTC) enables structured reasoning at inference time to address (pre-)training-time limits like data scarcity or cost \citep{ji2025test,villalobos2022will}. Inspired by System-2 cognition \citep{weston2023system}, TTC includes Chain-of-Thought (CoT) prompting and models that learn reasoning traces. Scaling TTC improves task performance \citep{snell2024scaling}.
+
+Large Reasoning Models (LRMs) extend this by learning structured reasoning via reinforcement learning \citep{xu2025towards,jiaqi2025o1tor1}. \texttt{DeepSeek-R1}, trained with Generalized Policy Optimization, offers strong performance at lower cost \citep{deepseekai2025deepseekr1}. This has spurred distillation efforts converting base models like Llama-3.1 and \texttt{Qwen 2.5} into LRMs \citep{grattafiori2024llama, qwen2025qwen25, muennighoff2025s1}. The RL-trained \texttt{QwQ-32B} also builds on \texttt{Qwen 2.5} \citep{qwq32b}.
+
+No prior work has focused on the impact of TTC on the utility and privacy of personal agents.
+Reasoning traces, introduced in ReAct \citep{yao2023react}, are now central to planning, tool use, and reflection in agentic tasks \citep{zhou2025large}. However, as agents increasingly operate through visible or extractable traces, reasoning itself  may become a potential privacy risk.
+
+
+
+\paragraph{Safety of reasoning models.} 
+
+There is no consensus on whether increased test-time compute improves safety. OpenAI advocates ``Deliberative Alignment'', training models to explicitly reason over safety instructions before answering \citep{zhou2024deliberative}. Reasoning also supports interpretability and trust \citep{wei-jie-etal-2024-interpretable,huang2025trusttrustenhancinglarge}. However, others raise serious concerns. \citet{wang2025safetylargereasoningmodels} and \citet{zhou2025hiddenriskslargereasoning} show that open-source LRMs like DeepSeek-R1 produce reasoning traces that often include harmful content, even when final answers are safe. These models are vulnerable to jailbreaks \citep{li2025smarterllmssaferexploring,jiang2025safechain}, and may engage in deception or unsafe autonomy \citep{baker2025monitoringreasoningmodelsmisbehavior,chen_reasoning_2025}. 
+This risk may become more severe with models like o4-mini \cite{o4mini2025}, where tool calls are embedded within the reasoning trace.
+Alignment techniques that aim to mitigate these risks often reduce reasoning performance, introducing a \textit{safety alignment tax} \citep{huang2025safetytaxsafetyalignment}. 

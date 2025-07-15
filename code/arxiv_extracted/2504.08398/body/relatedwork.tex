@@ -1,0 +1,15 @@
+\vspace{-0.2cm}
+\section{Related Work}
+
+\textcolor{red}{
+%
+There have been algorithmic works aimed at applying quantization to image generation diffusion models, focusing on ``integer''  quantization with W8A8 or W4A8 bitwidths~\cite{qdit, viditq, ptq4dit}.
+%
+However, the lack of support for INT4$\times$INT8 kernels on GPUs and the high activation bitwidth limit the speedup. 
+%
+\sysname proposes a mixed-precision MX quantization scheme and its customized accelerator, offering substantially higher speedup.
+}
+% Image generation diffusion 모델을 PTQ 하겠다는 algorithm work 들이 있다. 
+% diffusion transformer 양자화를 한 algorithm work 들 Q-DiT, ViDiT-Q, PTQ4DiT 는, W8A8 또는 W4A8 의 양자화를 하였다. 
+% 하지만 GPU 에서 W4A8 kernel 의 부재와 높은 activation bitwidth로 인해, limited latency speedup 을 보였다. 
+% 우리의 웍은 더 낮은 activation bitwidth 및 mixed-MX 연산 가속기를 제안함으로써 더 speedup 을 할 수 있음을 보였다. 

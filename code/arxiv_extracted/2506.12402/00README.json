@@ -1,0 +1,33 @@
+{
+   "sources" : [
+      {
+         "usage" : "toplevel",
+         "filename" : "final0704.tex"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "final0704.bbl"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "final0704.out"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "final0704.thm"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "ref.bib"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "siamplain.bst"
+      }
+   ],
+   "version" : 2,
+   "texlive_version" : 2023,
+   "process" : {
+      "compiler" : "latex"
+   }
+}

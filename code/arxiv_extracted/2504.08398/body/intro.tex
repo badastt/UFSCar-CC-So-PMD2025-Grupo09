@@ -1,0 +1,47 @@
+\IEEEpubidadjcol
+\vspace{-0.5cm}
+\section{Introduction}
+\vspace{-0.1cm}
+% \IEEEPARstart{R}{ecent} advancements in diffusion models for image generation~\cite{sd3, pixart-sigma, firefly} have significantly enhanced the field of image synthesis. 
+%
+% State-of-the-art image generation models typically adopt transformer-based architectures.
+\IEEEPARstart{R}{ecent} breakthroughs in diffusion models have sparked a paradigm shift in image synthesis by enabling more stable and high-fidelity generation. 
+%
+A key contributor to this shift is the integration of transformers into diffusion frameworks~\cite{sd3, pixart-sigma, flux}, also known as \underline{\textbf{Di}}ffusion \underline{\textbf{T}}ransformers (\emph{DiT}), building upon their proven success in both language and vision tasks.
+% 
+Figure~\ref{fig:denoising} illustrates the denoising process of diffusion transformer model.
+%
+Random noise is iteratively and progressively denoised, ultimately resulting in a clear image. 
+%
+This denoising process necessitates repetitive transformer computations, which result in a notably slow inference process.
+% 
+To address this challenge, several recent studies~\cite{ptq4dit, qdit, viditq, flightvgm, mixdq, paro} have explored quantization to accelerate diffusion models.
+%
+However, studies for DiT~\cite{ptq4dit, qdit, viditq} have struggled to enable quantization for \emph{activations}.
+% PTQ4DiT, QDiT, ViDiT-Q 는 Weight 4bit or 8bit, Activation 8bit 까지만 제안함 (W4A8, W8A8)
+% PTQ4DiT, QDiT 는 speedup 을 report 하지 않고 image quality 만 evaluate 했으며, ViDiT-Q 는 W8A8 에서의 speedup 을 report 함. 
+% ViDiT-Q 는 A100 에서 FP16 대비 W8A8 의 speedup 을 report 함. 1.47 times speedup (이 speedup 이 어떤 모델에서의 speedup 인지를 정확히 안 적어놓음. 아마 Pixart-sigma 이지 않을까 추정. 그리고 quality 보이는 코드만 공개했지 speedup 을 볼 수 있는 코드는 공개 안되어있음)
+% ViDiT-Q 도 W4A8 을 제안했으나 굳이 W8A8 speedup 만 report 한 이유는 GPU 에는 INT4 * INT8 연산 unit 이 없기 때문. 
+% 그리고 뒤의 evaluation 에서 볼 수 있듯이, QDiT, ViDiT-Q 의 방식을 사용해 W6A6 까지 quantize 하면 degradation 됨. prior work 들은 좀 더 낮은 activation bitwidth 를 다룰 수 없는거임
+
+%
+Rather disjointly, microscaling formats (MX)~\cite{mx, ocp} are emerging as a promising approach for quantization.
+%
+With its accuracy and hardware efficiency, MX has been standardized by Open Compute Project~\cite{ocp}, led by industry giants, and supported on NVIDIA Blackwell GPUs~\cite{blackwell}.
+% 
+Although MX has shown effectiveness across various workloads, such as CNNs and LLMs, it remains unexplored in diffusion transformers.
+% 
+In this study, we propose \sysname, an algorithm-hardware co-designed solution that leverages MX for low-precision quantization in diffusion transformers and introduces a specialized hardware architecture to support mixed-precision computation efficiently.
+%
+Our contributions are as follows: (1) magnitude-based mixed-precision MX quantization for aggressively low precision while preserving generation quality loss, (2) hyperparameter determination algorithm for mixed-precision thresholding, and (3) precision-flexible MX-supporting accelerator architecture. 
+%
+Our experiments showcase that \sysname achieves a latency speedup of 2.10$\times$ to 5.32$\times$ compared to NVIDIA RTX 3090, with no quality degradation in FID.
+
+
+% Figure: Diffusion denoising process 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\linewidth]{fig/diffusion-process.pdf}
+\caption{Denoising process of image generation diffusion with total timestep $T$ and architecture of diffusion transformer.}
+\label{fig:denoising}
+\end{figure}

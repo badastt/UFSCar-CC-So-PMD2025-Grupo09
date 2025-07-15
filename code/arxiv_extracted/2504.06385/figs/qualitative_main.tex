@@ -1,0 +1,107 @@
+\def\pathOurs{figs/qualitative/ours/}
+\def\pathCao{figs/qualitative/caoetal/}
+\def\pathRen{figs/qualitative/discrete/}
+\def\pathEisenb{figs/qualitative/smooths/}
+\def\pathSpiderMatch{figs/qualitative/spidermatch/}
+\def\srcEnd{_M.png}
+\def\trgtEnd{_N.png}
+
+
+\def\columnOne{Shuffling165-Shuffling092}
+\def\columnTwo{GoalkeeperScoop055-GoalkeeperScoop058}
+\def\columnTwoTwo{Running045-Standing2HMagicAttack01081}
+\def\columnThree{Falling202-Standing2HMagicAttack01036}
+\def\columnFour{Standing2HMagicAttack01058-GoalkeeperScoop058}
+\def\columnFive{tr_reg_080-tr_reg_099}
+\def\columnSix{tr_reg_085-tr_reg_090}
+\def\columnSeven{tr_reg_088-tr_reg_097}
+\def\columnEight{tr_reg_097-tr_reg_089}
+\def\columnNine{cow_04-dog_08}
+\def\columnTen{horse_08-cow_06}
+\def\columnEleven{dog_01-dog_08}
+\def\heightQ{2.05cm}
+\def\widthQ{2cm}
+\def\hspaceCols{-0.6cm}
+{\scriptsize
+\hspace{-0.3cm}
+\begin{tabular}{ccccccccccccc}
+    \renewcommand{\arraystretch}{0.7}
+    \setlength{\tabcolsep}{0pt}
+    \rotatedCentering{90}{\heightQ}{Source}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnOne\srcEnd}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnTwoTwo\srcEnd}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnFour\srcEnd}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnFive\srcEnd}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnEight\srcEnd}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnNine\srcEnd}&
+    \\
+    \rotatedCentering{90}{\heightQ}{\caoetal~\cite{cao2023unsupervised}}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathCao\columnOne\trgtEnd}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathCao\columnTwoTwo\trgtEnd}
+        \put(8,48){\includegraphics[height=0.7cm]{figs/qualitative/green_arrow_right.png}}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathCao\columnFour\trgtEnd}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathCao\columnFive\trgtEnd}
+        \put(37,58){\includegraphics[height=0.7cm]{figs/qualitative/red_arrow_left.png}}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathCao\columnEight\trgtEnd}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathCao\columnNine\trgtEnd}
+        \put(72,-7){\includegraphics[height=0.7cm]{figs/qualitative/red_arrow_right.png}}
+    \end{overpic}&
+    \\
+    \rotatedCentering{90}{\heightQ}{\spidermatch~\cite{roetzer2024spidermatch}}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathSpiderMatch\columnOne\trgtEnd}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathSpiderMatch\columnTwoTwo\trgtEnd}
+        \put(8,48){\includegraphics[height=0.7cm]{figs/qualitative/red_arrow_right.png}}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathSpiderMatch\columnFour\trgtEnd}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathSpiderMatch\columnFive\trgtEnd}
+        \put(37,58){\includegraphics[height=0.7cm]{figs/qualitative/red_arrow_left.png}}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathSpiderMatch\columnEight\trgtEnd}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathSpiderMatch\columnNine\trgtEnd}
+        \put(72,-7){\includegraphics[height=0.7cm]{figs/qualitative/red_arrow_right.png}}
+    \end{overpic}&
+    \\
+    \rotatedCentering{90}{\heightQ}{\ours}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnOne\trgtEnd}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathOurs\columnTwoTwo\trgtEnd}
+        \put(8,48){\includegraphics[height=0.7cm]{figs/qualitative/green_arrow_right.png}}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnFour\trgtEnd}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathOurs\columnFive\trgtEnd}
+        \put(37,58){\includegraphics[height=0.7cm]{figs/qualitative/green_arrow_left.png}}
+    \end{overpic}&
+    \hspace{\hspaceCols}
+    \includegraphics[height=\heightQ, width=\widthQ]{\pathOurs\columnEight\trgtEnd}&
+    \hspace{\hspaceCols}
+    \begin{overpic}[height=\heightQ, width=\widthQ]{\pathOurs\columnNine\trgtEnd}
+        \put(72,-7){\includegraphics[height=0.7cm]{figs/qualitative/green_arrow_right.png}}
+    \end{overpic}&
+    \\
+\end{tabular}
+}

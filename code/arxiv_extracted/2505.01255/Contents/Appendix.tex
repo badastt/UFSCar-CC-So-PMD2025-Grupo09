@@ -1,0 +1,142 @@
+\appendix
+
+\section{Dataset Specifications}
+We list the specifications of train/validation/test split of the two datasets (six categories) in Table~\ref{Amazon-Spec}~and Table~\ref{Lazada-Spec}.
+The numbers ``$X/Y$'' represent that the split contains $X$ product descriptions and $Y$ reviews.
+Amazon-MRHP is an pure English dataset, while Lazada-MRHP is written in Indonesian so that we do not conduct BERT related experiments on it.
+\input{Contents/submodules/datasets}
+
+\section{Training Details}
+\subsection{Initialization of Embeddings}
+To stay consistent with previous works, we embed the text input of Amazon-MRHP with GloVe-300d~\cite{pennington2014glove} and Lazada-MRHP with  Fasttext~\cite{joulin2016fasttext}, respectively.
+In BERT-related experiments we employ the Huggingface toolkit for pretrained models\footnote{https://huggingface.co/docs/transformers/index}.
+
+\subsection{Hyperparameter Search space}
+The optimal hyperparameter settings are listed in Table \ref{Amazon hyperparameters}, \ref{lazada hyperparameters} and \ref{Amazon Bert hyperparameters}.
+The search space of these hyperparameters are: learning rate in $\{1e^{-4}, 5e^{-4}\}$, text embedding dropout fixed at $\{0.2\}$, shared space hidden dimension in $\{128, 256\}$.
+
+\input{Contents/submodules/hp_search}
+
+% \subsection{Hardware Settings}
+% We train and test both datasets on a single NVIDIA RTX A6000 GPU.
+% The gradients are calculated and backpropagated for each batch in a single forward pass, without batch division and gradient accumulation.
+\label{sec:appendix}
+
+\subsection{Sampling of Production Description-Review Pairs in Training}
+We mentioned in~\cref{sec:Training} that the training pairs are sampled from the training set.
+Now we describe how do we sample these training pairs.
+% \todo{Complete this section}
+First, we sample $B$ products from the training set where $B$ is the batch size.
+Next, for each product, we randomly sample one of its positive review (rating is greater than 2 and $N_r^{-}$ negative reviews (rating is less than or equal to 2 from the corresponding review set.
+The dataset has been filtered during manufacture time so that there is always at least one positive/negative review under each product.
+To put it in a nutshell, a sampled batch contains $B$ product descriptions, $B$ positive reviews and $N_r^{-}B$ negative reviews.
+
+\section{The Differentiability of top-K Operation in PyTorch}
+Given a vector $S = \{s_1, s_2, ..., s_L\} \in \mathbb{R}^L$ where $L$ is the length of that vector, when passing through the top-K operation, most fundamentally its largest $K$ values are selected and sorted in descending order to form a new vector $T = \{t_1, t_2, ..., t_K\} \in \mathbb{R}^K$. 
+Suppose the indices of $T$'s elements in $S$ are $I= \{i_1, i_2, ..., i_K\} \subset \{1, 2, ..., L\}$, then the process equals to that concurrently there is a mask $M \in \{0,1\}^L $ automatically created and ``multiplies'' on $S$. 
+Each value $m_j$ in $M$ is
+\begin{equation*}
+    m = 
+    \begin{cases}
+        1, \quad if \quad j \in I \\
+        0, \quad if \quad j \notin I
+    \end{cases}
+\end{equation*}
+With this mask, the forward and backward propagation can proceed as in conventional routines.
+
+\section{Training Speed}
+\subsection{Theoretical Analysis}
+For simplicity, we consider the case of a pair of modality sequence.
+Let $X_1\in \mathbb{R}^{l_1\times d}$, $X_2\in \mathbb{R}^{l_2\times d}$ be a pair of input modality sequences. Here we assume they have been both projected to the same dimension as a common practice that both the fusion--prediction routines and our matching approach exercise.
+The multihead attention operation in fusion-based models can be written as:
+\begin{equation}
+    X_{12} = Att(X_1,X_2)
+\end{equation}
+Note that attention is a \textit{directional} operation, i.e. $Att(M_1,M_2)\neq Att(M_2,M_1)$. 
+Due to this, a fusion-based learning model $\mathcal{M}$ always adopts a pair of conjugate attention. Therefore, for a model of $N$ layers, the total computational complexity $C_f$ is:
+\begin{equation}
+    C_{f}=(2l_1l_2+l_1^2+l_2^2)Nd
+\end{equation}
+
+Now consider matching-based models. 
+We only have self-attention for each modality per layer. 
+The whole computational complexity consists of the self-attention (att) and multi-scale matching score (mm).
+\begin{equation}
+    C_{m} = C_{att} + C_{mm}
+\end{equation}
+Since the number of scales decreases as the aggregation proceeds, we denote the decreasing ratio at layer $i$ for modality $j$ as $k_{i,j}$. Hence, the total computational complexity is:
+\begin{equation}
+    C_{att}=2\sum_pl_p^2d\left(1+\frac{1}{k_{p,1}^2}+\frac{1}{k_{1,p}^2k_{2,p}^2}+...\right) 
+\end{equation}
+In our settings, $k_{p,1}$ is large (typically greater than 10), therefore $\frac{1}{k_{p,j}^2} < 0.01$ and can be ignored:
+\begin{equation}
+    C_{att} = 2(l_1^2+l_2^2)d
+\end{equation}
+As for the second term, we have:
+\begin{equation}
+\begin{split}
+    C_{mm} &=  l_1\left(\frac{1}{k_{1,1}}+...\right)l_2\left(\frac{1}{k_{2,1}}+...\right)d \\
+    &< \frac{l_1l_2d}{k_{1,1}k_{2,1}(1-k_1^{-1})(1-k_2^{-1})} \\
+\end{split}
+\end{equation}
+In the MRHP dataset, $l_1\approx l_2 = l$. 
+% Thus $C_f=4Nl^2d$ and $C_m=5l^2d$. 
+For the typical value $N=2, k_1=k_2=10$, we have $C_f=8l^2d$ and $C_m < (4+\frac{1}{81})l^2d=4.01l^2d$, or 
+\begin{equation}
+    \frac{C_m}{C_f}\approx0.5
+\end{equation}
+which is closed to the measured acceleration in~\ref{fig:speedcomp}. In fact, let $C_m=C_f$ and $N=2$, we have $l_1\approx 2.42 l_2$, which seldom happens in the whole dataset. We observe that the number of hot regions is greater than the text length.
+    
+
+\subsection{Numerical Results}
+We measure the average training time per batch of MCR, SANCL (the state-of-the-art baseline) and PREMISE, as shown in Figure~\ref{fig:speedcomp}.
+The average values are calculated by counting the total time of iterations over 100 batches for 5 random intervals during the whole training process. 
+
+Mathematically, denote the counted time of the $i^{th}$ interval as $t_i$, the speed is calculated as follows
+\begin{equation}
+    speed = \frac{\sum_{i=1}^5 t_i}{100 \times 5} 
+\end{equation}
+It can be seen that the training time has been greatly shortened by 42\% and 65\% compared to SANCL (the fastest baseline, athough they have closed number of parameters as shown in~\Cref{tab:model_comp}) and GBDT (the strongest baseline), which approximately matches the conclusion given by mathematical deduction. 
+
+\begin{figure}
+    \centering
+    \resizebox{\linewidth}{!}{
+        \includegraphics{Contents/img/speed_comp.png}
+    }
+    \caption{The relative training time of different models. The fastest baseline (SANCL) is highlighted in orange, while our model is highlighted in green. Others are in blue.}
+    \label{fig:speedcomp}
+\end{figure}
+
+\section{Experiment on Multimodal Retrieval}
+We test~\modelname~on multimodal retrieval (bidirectional) task, the results of both image-to-text and text-to-image retrieval on the MSCOCO test set are shown in~\Cref{tab:retrieval}. It can be seen that although our formulation process is completely based on ``learning-from-relation" in MRHP task, the constructed model still has some generalizability to other tasks that our hypothesis stands.
+
+\input{Contents/submodules/retrieval}
+
+\section{Case Study}
+\subsection{How matching scores affect the prediction?}
+To further understand the model's functional mechanism, we randomly pick an example from the Amazon--electronics and visualize some matching scores during the test time in Figure~\ref{fig:case_study}.
+There are several valuable points to underline.
+First, when the model achieves the best performance, its matching scores can reflect the correlation between some semantically matched feature pairs.
+For instance, the RoI-RoI matching score of -0.17 is produced by the two RoIs that enclose different objects in their respective images, and thus the correlation between them is very weak, and a near 0 score is obtained, while the two boxes that contain the port hub achieve a relatively high matching score.
+Second, text-text matching may act as word matching. 
+It is hard to attribute the 0.89 matching score of those two sentences to the high semantic similarity between those two text snippets since their semantic meanings are different, only to share some common words.
+These two discoveries reveal that~\modelname~attends to more than semantic matching, and just a certain number of correct matching scores could make up the last features for its accurate prediction, in accord with the conclusion about $K$ values. 
+
+\subsection{Comparison on examples with GBDT}
+We further randomly draw two examples which PREMISE gives accurate predictions but GBDT, the state-of-the-art baseline, fails. 
+The original review context (including text and attached image) together with the predictions from GBDT and our model towards these two examples are displayed  in~\Cref{tab:elec_product}~to~\Cref{tab:case_study2}. 
+
+We find that~\modelname~ ranks these reviews in correct order (it has the same ranking sequence $1\to 2 \to 3$  and $1 \to 2 \to 3 \to 4$ as the ground truth's in the two examples respectively) even trained and tested with normalized score whose values range from 0 to 1 (different from the annotated scores $s\in [0,4]$). In the given examples, GBDT flips the order of 'B005NGQWL2-9' and 'B005NGQWL2-65' in example 1 and the order of 'B00H4O1L9Y-111' and 'B00H4O1L9Y-122' in example 2.
+This could imply that matching-based modeling can make more accurate predictions than fusion-based modeling.
+
+\begin{figure*}
+    \centering
+    \includegraphics[scale=0.52, trim=2cm 0 0 0]{Contents/img/case_study.pdf}
+    \caption{A case study from Amazon-MRHP dataset. 
+    The upper and lower part of the figure is the product and review post respectively.
+    Green and purple are instance pairs that produce high and low scores that are selected/not selected into the final feature vector. 
+    For the matching of n-gram words, we display the largest matching scores between individual words in that scope and the other elements.}
+    \label{fig:case_study}
+\end{figure*}
+
+\input{Contents/submodules/case_study}

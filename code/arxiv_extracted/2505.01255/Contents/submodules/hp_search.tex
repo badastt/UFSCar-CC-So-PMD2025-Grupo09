@@ -1,0 +1,68 @@
+\begin{table}[ht!]
+    \centering
+    \resizebox{\linewidth}{!}{\begin{tabular}{lccc}
+    \toprule
+    \multicolumn{4}{c}{\textbf{Amazon-MRHP Glove Hyperparameters}} \\
+         & Cloth. \& Jew. &  Elec. & Home \& Kitch. \\
+         \midrule
+         learning rate  & $1e^{-4}$  & $5e^{-4}$ & $5e^{-4}$ \\
+         text embedding dim & 300 & 300 & 300 \\
+         text embedding dropout & 0.2 & 0.2 & 0.2 \\
+         image embedding dim & 256 & 256 & 256 \\
+         text embedding dim & 128 & 128 & 128 \\
+         shared space hidden & 128 & 128 & 128 \\
+         $r$ & 4 & 4 & 4 \\
+         K & 96 & 128 & 64 \\
+         batch size & 32 & 32 & 32 \\
+         \bottomrule
+    \end{tabular}
+    }
+    \caption{Hyperparameters for Amazon-MRHP using glove-300d embeddings.}
+    \label{Amazon hyperparameters}
+\end{table}
+
+\begin{table}[ht!]
+    \centering
+    \resizebox{\linewidth}{!}{\begin{tabular}{lccc}
+    \toprule
+    \multicolumn{4}{c}{\textbf{Lazada-MRHP fastText Hyperparameters}} \\
+         & Cloth. \& Jew. &  Elec. & Home \& Kitch. \\
+         \midrule
+         learning rate  & $1e^{-4}$  & $5e^{-4}$ & $1e^{-4}$ \\
+         text embedding dropout & 0.2 & 0.2 & 0.2 \\
+         image embedding dim & 256 & 256 & 256 \\
+         text embedding dim & 128 & 128 & 128 \\
+         shared space hidden & 128 & 128 & 128 \\
+          $r$ & 4 & 4 & 4 \\
+          $K$ & 96 & 96 & 128 \\
+         batch size & 32 & 32 & 32 \\
+         \bottomrule
+    \end{tabular}
+    }
+    \caption{Hyperparameters for Lazada-MRHP using fasttext embeddings.}
+    \label{lazada hyperparameters}
+\end{table}
+
+\begin{table}[ht!]
+    \centering
+    \resizebox{\linewidth}{!}{\begin{tabular}{lccc}
+    \toprule
+    \multicolumn{4}{c}{\textbf{Amazon-MRHP BERT Hyperparameters}} \\
+         & Cloth. \& Jew. &  Elec. & Home \& Kitch. \\
+         \midrule
+         learning rate  & $1e^{-5}$  & $1e^{-5}$ & $1e^{-5}$ \\
+         bert learning rate &  $1e^{-5}$  & $1e^{-5}$ & $1e^{-5}$ \\
+         text embedding dropout & 0.2 & 0.2 & 0.2 \\
+         image embedding dim & 512 & 512 & 512 \\
+         text embedding dim & 256 & 256 & 256 \\
+         shared space hidden & 256 & 256 & 256 \\
+          $r$ & 4 & 4 & 4 \\
+          $K$ & 128 & 128 & 128 \\
+         batch size & 16 & 16 & 8 \\
+         \bottomrule
+    \end{tabular}
+    }
+    \caption{Hyperparameters for all categories using BERT as encoder}
+    \label{Amazon Bert hyperparameters}
+\end{table}
+

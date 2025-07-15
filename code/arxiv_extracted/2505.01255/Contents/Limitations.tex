@@ -1,0 +1,7 @@
+\section*{Limitations}
+The major limitation of~\modelname~is its applicable scenarios or restricted adaptation ability to other multimodal tasks.
+Ideally, we expect~\modelname~to behave as a generic model that can also work on many other multimodal tasks, but now we have only empirically demonstrated its efficacy in the MRHP task. 
+Intuitively, we believe that at least in the tasks where the extent of semantic matching matters, our method should produce satisfying results, e.g., multimodal (image/text) retrieval and sarcasm detection where low correlation usually implies that sarcasm exists.
+But currently we only yield fair results that fall behind the current SOTA significantly on the aforementioned tasks (see appendix for details).
+
+Another limitation is the efficiency. We actually adopt a brute-force computing strategy, which can be further improved through more careful module design. We hold this as our future potential direction to work on.

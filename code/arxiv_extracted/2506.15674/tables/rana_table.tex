@@ -1,0 +1,26 @@
+\begin{table}[tbp]
+\setlength{\tabcolsep}{2.5pt}
+\centering
+\rowcolors{4}{gray!10}{white}
+\small
+\captionsetup{font=small}
+\begin{tabular}{lcccccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Utility} ($\uparrow$)} & \multicolumn{3}{c}{\textbf{Privacy} ($\uparrow$)} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+\textbf{Model} & None & \textsc{RAnA} & Diff & None & \textsc{RAnA} & Diff \\
+\midrule
+R1-Llama-8B   & 0.85 & 0.72 & \textcolor{red}{-0.13} & 0.72 & 0.78 & \textcolor{green}{+0.06} \\
+R1-Llama-70B  & 0.85 & 0.70 & \textcolor{red}{-0.15} & 0.89 & 0.92 & \textcolor{green}{+0.03} \\
+R1-Qwen-14B   & 0.82 & 0.67 & \textcolor{red}{-0.15} & 0.88 & 0.92 & \textcolor{green}{+0.04} \\
+R1-Qwen-32B   & 0.76 & 0.64 & \textcolor{red}{-0.12} & 0.92 & 0.94 & \textcolor{green}{+0.02} \\
+QwQ-32B       & 0.80 & 0.78 & \textcolor{red}{-0.02} & 0.87 & 0.87 & 0.00 \\
+s1-32B        & 0.77 & 0.67 & \textcolor{red}{-0.10} & 0.86 & 0.86 & 0.00 \\
+s1.1-32B      & 0.86 & 0.83 & \textcolor{red}{-0.03} & 0.68 & 0.78 & \textcolor{green}{+0.10} \\
+DeepSeek R1   & 0.61 & 0.66 & \textcolor{green}{+0.05} & 0.95 & 0.95 & 0.00 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Anonymizing the reasoning improves privacy but reduces utility}. Utility and privacy with/without \textsc{RAnA}.}
+\label{tab:rana}
+\end{table}
+% Obtained with rana_vs_standard.py  (output file) tables/v7_chat_no_nemo_gpt/std_vs_rana_comparison_table_gpt.tex

@@ -1,0 +1,80 @@
+\vspace{-0.4cm}
+\section{Methodology}
+\vspace{-0.1cm}
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Hardware configurations}
+\label{tab:hw-config}
+\begin{tabular}{c;{1pt/1pt}c|c;{1pt/1pt}c} 
+\hline
+Systolic array size   & 16x16 PEs & Memory bandwidth        & 936GB/s   \\ 
+\hdashline[1pt/1pt]
+\# of systolic arrays & 1024      & On-chip memory & 28MB      \\ 
+\hdashline[1pt/1pt]
+Frequency             & 500 MHz   & Peak perf.(MX9)   & 262 TOPS  \\
+\hline
+\end{tabular}
+\end{table}
+
+% % table for HW configuration
+% \begin{table}[t] 
+% \centering
+% \footnotesize
+% \caption{Hardware configurations}
+% \label{tab:hw-config}
+% \begin{tabular}{c|c} 
+% \hline
+% Systolic array size   & 16x16 PEs   \\ 
+% \hdashline[1pt/1pt]
+% \# of systolic arrays    & 1024         \\ 
+% \hdashline[1pt/1pt]
+% Frequency             & 500MHz     \\ 
+% \hdashline[1pt/1pt]
+% Memory bandwidth      & 936GB/s     \\ 
+% \hdashline[1pt/1pt]
+% On-chip memory capacity & 28MB        \\ 
+% \hdashline[1pt/1pt]
+% Peak performance(MX9) & 262 TOPS  \\
+% \hline
+% \end{tabular}
+% \end{table}
+
+\niparagraph{Models and datasets.}
+For evaluation, we use DiT-XL~\cite{dit}, Pixart-$\Sigma$~\cite{pixart-sigma}, and Stable Diffusion 3 (SD3)~\cite{sd3}.
+%
+We denote the generated image resolution by appending $\{256, 512, 1024\}$ to the model name.
+%
+We use the default settings for the guidance scale of 4.0 and 5.0 for DiT-XL and Stable Diffusion 3, respectively.
+%
+We perform inference for 25 timesteps across all models.
+%
+To evaluate the quality, we employ ImageNet-val-5k for DiT-XL, and MS COCO-1k for Pixart-$\Sigma$ and SD3. 
+%
+We adopt three image quality metrics: fidelity with Frechet Inception Distance (FID), diversity with Inception Score (IS), and prompt alignment with CLIP Score. 
+
+\niparagraph{Baselines.}
+%
+% We employ Q-DiT~\cite{qdit} and ViDiT-Q~\cite{viditq} on NVIDIA RTX-3090 as baselines.
+We employ Q-DiT~\cite{qdit} and ViDiT-Q~\cite{viditq} as quality baselines, both of which are prior works using INT quantization for diffusion transformers.
+%
+We set the precision to 6 bits for both weights and activations to demonstrate their limitations in low-precision activation quantization.
+%
+As speedup baselines, we use the original FP16 model and the ViDiT-Q W8A8 model on RTX 3090.
+% 
+Since ViDiT-Q provides an INT8 model only for Pixart-$\Sigma$, we conduct our comparison with ViDiT-Q exclusively on Pixart-$\Sigma$.
+% 
+
+\niparagraph{Implementation.}
+%
+We implement the MX quantized model with PyTorch 2.0, Huggingface Diffusers library, and triton language~\cite{triton-language}. 
+%
+We develop our accelerator on top of the open-source DaCapo accelerator simulator~\cite{dacapo}.
+%
+% We set our simulator setting to match the MX9 peak performance to the GPU FP16 performance.
+%
+Table~\ref{tab:hw-config} shows the hardware configuration for the simulator.
+We set the group size to 16 and the subgroup size to 2 for MX, and employ a batch size of 1 throughout the experiments.
+
+

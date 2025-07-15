@@ -1,0 +1,41 @@
+\section{Introduction}
+The e-commerce industry has experienced an unprecedented boom in the past decade.
+Powered by an instant trading system, online shopping platforms successfully endow buyers who seek their favorite goods and sellers who advertise their products with convenience for transaction~\citep{boysen2019warehousing,vulkan2020economics,alfonso2021commerce}.
+However, when wandering through these shops, customers easily fall into the dilemma of deciding whether to buy a product displayed on the screen.
+% in front of their eyes.
+At that time, the comments left by past customers are often considered as the most valuable reference.
+Therefore, how to automatically evaluate review's quality and accurately recommend these reviews becomes a challenge yet an opportunity for online shopping platforms to attract and hold customers.
+Formally, researchers formulate this problem as the Review Helpfulness Prediction (RHP) task~\citep{tang2013context,ngo2014influence}, which aims to quantify the value of each review to potential customers.
+By sorting these reviews according to the predicted helpfulness scores in descending order, the platform can post the most valuable reviews at the conspicuous location in the shop page.
+\input{Contents/submodules/problem_setting}
+In recent years, RHP task has been extended to the multimodal scenario by incorporating the text-attached images as an auxiliary source to help the model make more accurate predictions~\citep{liu2021multi}, termed Multimodal RHP (MRHP).
+
+Previous achievements to address this problem
+usually employ fusion modules to learn expressive multimodal representations for prediction~\cite{arevalo2017gated,chen2018cross,liu2021multi,han-etal-2022-sancl,nguyen-etal-2022-adaptive}.
+Despite the gained satisfying results, there are still several drawbacks in those models that limit the system's performance.
+First, explicit multi-scale modeling is missing.
+Extant works usually take into account single or combinations of segments in a \textit{fixed scale}, such as tokens, phrases and image patches.
+Nevertheless, multi-scale modeling is necessary especially when confronted with long textual inputs like reviews, 
+since it has been pointed out that task-related information is commonly distributed unevenly among all the sentences~\cite{chen2019multi}.
+Take a randomly picked product and attached review in Table~\ref{Problem Setting}~as an example, even a review of high helpfulness score (Review 1), there are many dispensable sentences (unbold text) that stray from the product it comments on (off-the-topic).
+Second, though fusion-based models have been demonstrated effective in a family of multimodal tasks, they often result in bulk structures and hence are time-consuming in the training process~\cite{nagrani2021attention}. 
+Previous research reveals that semantic matching, i.e., the similarity between semantic elements 
+(image regions, text tokens and their n-grams) 
+can be regarded as a crucial factor that guide models to make the final decision~\cite{ma2015multimodal,huang2017instance,liu2017learning}.
+Based on the discovery, we postulate that quantified matching scores could be fully exploited in regression.  
+Specifically, in MRHP task, the matching extent between the review and product description, and inside a review itself (i.e., whether the text and image of a review 
+%express a similar theme
+express a similar meaning) impact how customers rate that review---one could probably not contribute kudos unless he finds product-related contents in that review---such contents subsume the confirmation to the seller's  claims, complementary illustration of the product's characteristics, and precautions for the usage, etc.
+
+Based on these two observations and inspired by the idea from relation-based learning~\cite{snell2017prototypical,sung2018learning}, we devise a simple yet effective model, \modelname~(\modelfullname) for MRHP tasks.
+~\modelname~gets rid of classic fusion-based architecture and 
+% directly regards 
+use the matching scores between different modalities and fields in various scales as the feature vectors for regression.
+Meanwhile, we harness the theory of contrastive learning~\cite{oord2018representation,he2020momentum,chen2020simple} to further boost the model's performance as it has similar mathematical interpretations of relation-based learning. 
+To our best knowledge, this is the first work that dedicates to utilizing semantic matching scores as logits for classification.
+The contributions of our work are summarized as follows:
+\begin{itemize}
+    \item We propose~\modelname, a model purely based on semantic matching scores of multi-scale features for the multimodal review helpfulness prediction task.~\modelname~can produce multi-modal multi-field and multi-scale matching scores as expressive features for MRHP tasks.
+    \item We design a new functional architecture named aggregation layer, which receives features from a smaller scale and outputs combinations of features in the same scale, plus the counterparts in a larger scale.
+    \item We conduct comprehensive experiments on several benchmarks. The results compared with several strong baselines show the great advantage and efficiency of exploiting semantic matching scores for the MRHP task. 
+\end{itemize}

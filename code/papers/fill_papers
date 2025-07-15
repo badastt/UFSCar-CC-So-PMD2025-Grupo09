@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Configuration
+prefix="data_chunk_"
+suffix_len=3  # number of digits
+
+# Detect extension dynamically (assumes all files have same extension)
+ext=""
+for f in ${prefix}[0-9][0-9][0-9].*; do
+  [ -e "$f" ] || continue
+  ext=".${f##*.}"
+  break
+done
+
+# No files found
+[ -z "$ext" ] && echo "No matching files found." && exit 1
+
+# Build sorted list of files
+files=$(ls ${prefix}[0-9][0-9][0-9]$ext 2>/dev/null | sort)
+[ -z "$files" ] && echo "No matching files found." && exit 1
+
+# Main renaming loop
+expected=0
+for file in $files; do
+  num=$(echo "$file" | sed -E "s/^$prefix([0-9]+)$ext/\1/")
+  if [ "$num" -ne "$expected" ]; then
+    new_name=$(printf "%s%0*d%s" "$prefix" "$suffix_len" "$expected" "$ext")
+    echo "Renaming $file -> $new_name"
+    mv "$file" "$new_name"
+  fi
+  expected=$((expected + 1))
+done
+

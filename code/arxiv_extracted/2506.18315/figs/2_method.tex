@@ -1,0 +1,14 @@
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.97\linewidth]{imgs/method_v3.pdf}
+\caption{
+Overview of the \Method{} framework, showcasing the iterative collaboration between the \Agents{} and the \Agentt{}.
+    % (1) \Agents{} generates initial code from $Q$.
+    % (2) \Agentt{} defines/generates properties (primarily LLM-assisted) based on $Q$ and validates them.
+    % (3) \Agentt{} synthesizes diverse test inputs.
+    % (4) \Agents{} executes its current code using properties and inputs from \Agentt{}, identifying violations.
+    % (5) \Agentt{} analyzes violations and provides targeted feedback to \Agents{}.
+    % (6) \Agents{} refines the code based on this feedback. The cycle repeats.
+}
+\label{fig:method}
+\end{figure*}

@@ -1,0 +1,18 @@
+\begin{table*}[t]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+    \toprule
+       \multirow{2}{*}{Model}  & \multicolumn{2}{c|}{Image-to-Text} & \multicolumn{2}{c}{Text-to-Image} \\
+    \cline{2-5}
+    ~ & PRMP & R@1 & PRMP & R@1 \\ 
+    \hline
+    VCRN~\cite{li2019visual} & 29.70 & \textbf{53.00} & 29.90 & \textbf{40.50} \\
+    PCME~\cite{chun2021probabilistic} & 34.10 & 41.70 & \underline{34.40} & 31.20 \\
+    MSRM~\cite{wang2023multilateral} & \textbf{35.62} & \underline{44.32} & \textbf{35.81} & \underline{33.40} \\
+    \hline
+    \modelname & \underline{34.23} & 42.06 & 33.92 & 31.50 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Results on MSCOCO-5K test set. The highest values in each metric are in bold, while the second-highest are indicated with an underline.}
+    \label{tab:retrieval}
+\end{table*}
