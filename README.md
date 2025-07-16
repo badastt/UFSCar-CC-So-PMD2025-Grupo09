@@ -388,7 +388,7 @@ LIMIT 1
 ```
 
 
-## 7. Dificuldades encontradas (?)
+## 7. Dificuldades encontradas
 Foram encontradas dificuldades em diversas partes, mas principalmente na integração do Mongodb com o Neo4j. Pois para que isso seja possível é necessário o uso do [APOC](https://neo4j.com/docs/apoc/current/), só que não bastava somente baixar o [núcleo](https://github.com/neo4j/apoc/releases) dele, já que a [função do mongo](https://neo4j.com/labs/apoc/5/overview/apoc.mongo/) pertence ao "APOC Extended" que está presente em [outro repositório](https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases) e que também necessitava de baixar o "apoc-mongodb-dependencies-*.jar", nada disso que era imediatamente explícito em qualquer lugar, e que foi descoberto por bastante pesquisa e tentativa-e-erro.
 Mesmo tendo o código do APOC agora funcionando, fazer o "regexFind" funcionar também não foi trivial, já que ao tentar rodar o código que logicamente faria sentido e.g.:
 ```
