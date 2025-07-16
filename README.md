@@ -28,7 +28,7 @@ O objetivo principal deste projeto é construir uma rede de relacionamentos entr
 Em resumo, as motivações iniciais surgiram com base nas experiências da dificuldade de encontrar artigos científicos que cumpram certos critérios e estejam relacionados a um tópico específico (pelo menos pela experiência de um dos membros do grupo…) e pensando no quão mais prático seria usar uma ferramenta que consiga organizar a busca de outros trabalhos científicos assim.
 
 
-## 5. Fundamentação Teórica (?)
+## 5. Fundamentação Teórica
 
 
 
@@ -353,7 +353,7 @@ RETURN coauthor, p, wb
 2. Consulta para encontrar os artigos mais frequentemente citados dentro do banco de dados:
 ```Cypher
 MATCH w=(p)-[:IS_CITED_BY]->()
-RETURN p.id AS PaperTitle, count(w) AS NumberOfCitations
+RETURN p.id AS PaperId, count(w) AS NumberOfCitations
 ORDER BY NumberOfCitations DESC
 LIMIT 10
 ```
@@ -361,7 +361,7 @@ LIMIT 10
 3. Consulta para encontrar os autores que escreveram mais artigos e suas colaborações mais frequentes:
 ```Cypher
 MATCH (a1:Author)-[:WROTE]->(p:Paper)<-[:WROTE]-(a2:Author)
-WHERE id(a1) < id(a2)
+WHERE elementId(a1) < elementId(a2)
 WITH a1, a2, count(p) AS collaborations
 ORDER BY collaborations DESC
 LIMIT 10
@@ -410,5 +410,5 @@ Foi depois de muita pesquisa e tentativa-e-erro que descobrimos que o certo era 
 Com quatro barras invertidas ao invés de uma (ou duas), o que não fazia nenhum sentido lógico, só que pela forma que os 'escape characters' funcionam na combinação de usar uma função do APOC no cypher-shell para rodar na agregação do mongodb era necessário para poder rodar o regex corretamente.
 
 ## 8. Conclusões
-O nosso planejamento inicial foi atingido, criamos uma rede de relacionamentos entre artigos científicos incluindo os artigos que eles citam, os artigos que eles são citados por, os autores e as suas categorias. Também conseguimos seguir o nosso fluxograma inicial, com os dados passando por uma estrutura de pilha, possuindo os dados brutos no MongoDB e os relacionamentos processados no Neo4j, sendo possível ainda acessar o MongoDB através do Neo4j. 
+O nosso planejamento inicial foi atingido, criamos uma rede de relacionamentos entre artigos científicos incluindo os artigos que eles citam, os artigos que eles são citados por, os autores e as suas categorias. Também conseguimos seguir o nosso fluxograma inicial (nenhuma consulta com o drill through foi projetada, mas a ideia foi usada para fazer a inserção dos dados no neo4j, então confirmamos seu funcionamento), com os dados passando por uma estrutura de camadas, possuindo os dados brutos no MongoDB e os relacionamentos processados no Neo4j, sendo possível ainda acessar o MongoDB através do Neo4j. 
 Assim, com o sistema estabelecido, é possível realizar consultas procurando artigos que se citam, autores e colaboradores específicos ou por categorias mais abrangentes rápida e eficientemente, além disso, é possível acessar os dados brutos a partir do Neo4j utilizando o APOC, porém estas consultas não são as principais e serão inevitavelmente menos eficientes.
