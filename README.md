@@ -1,13 +1,27 @@
 
 
-# Rede de Artigos Científicos do arXiv
+# Projeto de Disciplina - Rede de Artigos Científicos do arXiv
+
+### Universidade Federal de São Carlos
+### Curso: Bacharelado em Ciência da Computação de Sorocaba
+### Disciplina: Processamento Massivo de Dados
+### Professora: Profª. Drª. Sahudy Montenegro González
+
+## 
+
+### Grupo 9
+### Integrantes:
+ - Beatriz Rogers Tripoli Barbosa (792170)
+ - Jean Rodrigues Rocha (813581)
+ - Thiago Domingues da Silva (802276)
+
+##
 
 ## 1. Resumo
-Foi criado um sistema de dados baseado em nós usando as ferramentas Neo4j e MongoDB, relacionando artigos, categorias e autores. Nosso sistema contém os dados em forma bruta guardados no MongoDB e, através de comandos do plugin para Neo4j APOC, inserimos todos os papéis, autores e categorias no sistema do Neo4j, além disso foram criados relacionamentos de citação entre os artigos, de escrita entre papéis e autores e de categorias entre categorias e artigos. Os dados brutos continuam no MongoDB para facilitar o pré-processamento no caso de atualizações e/ou adições.
+Foi criado um sistema de dados baseado em nós usando as ferramentas Neo4j e MongoDB, relacionando artigos, categorias e autores. Nosso sistema contém os dados em forma bruta guardados no MongoDB e, através de comandos do plugin para Neo4j APOC, inserimos todos os papéis, autores e categorias no sistema do Neo4j, além disso foram criados relacionamentos de citação entre os artigos, de escrita entre papéis e autores e de categorias entre categorias e artigos. 
 
 ## 2. Introdução
 Nota-se a existência de sistemas de banco de dados para artigos científicos, porém, com fins educativos, decidimos criar  um sistema de banco de dados com foco nos relacionamentos dos artigos,  facilitando consultas relacionadas a um artigo específico e suas citações, trabalhos de autores particulares e seus colaboradores, ou procurando em categorias mais abrangentes.
-
 
 O foco principal do projeto foi se familiarizar com sistemas de bancos de dados NoSQL, especificamente integrando duas tecnologias distintas em um uso. Assim, para garantir a permanência dos dados e facilitar o  tratamento necessário dos mesmos, foi decidido utilizar o MongoDB para guardar os dados brutos, enquanto o Neo4j foi utilizado para o estabelecimento do banco de dados tratado com os relacionamentos estruturados.
 
@@ -29,16 +43,13 @@ Em resumo, as motivações iniciais surgiram com base nas experiências da dific
 
 
 ## 5. Fundamentação Teórica
-
-
-
 Os dados brutos usados nesse projeto podem ser facilmente obtidos através da API, porém, esse processo é demorado pois envolve acessar o site do arXiv, baixar o código fonte do artigo e processar as informações obtidas, portanto, é de nosso interesse manter os dados brutos armazenados em algum lugar. Desta forma, decidimos escolher o MongoDB como banco de dados para cumprir com esse papel, não só por estarmos mais familiarizados, mas também por ser uma tecnologia orientada à documentos com um comando que permite processar os dados de diversas formas convenientes (aggregate). Como os dados brutos são muito maiores que os dados processados (autores, títulos, categorias e citações), também faz sentido usar um banco de dados que tenha capacidade de paralelizar o acesso aos dados de maneira mais natural, visto que o MongoDB foi pensado para ser eficiente em uma arquitetura horizontal, enquanto o Neo4J foi pensado para ser eficiente em uma arquitetura vertical. No nosso caso, não temos dados o suficiente para ser necessário armazená-los em diversas máquinas, mas para um projeto de escala maior, provavelmente seria melhor dividir os dados em diversas máquinas.
 
 Passando para o outro banco de dados utilizados, a escolha de se utilizar o Neo4J se principalmente pelo fato da tecnologia ser orientada à grafos, visto que esse tipo de tecnologia é a mais apropriada para cumprir com o propósito de construir uma rede de relacionamentos entre artigos científicos, além disso, não podemos desconsiderar a facilidade de uso como outro dos nossos principais motivos para a escolha da tecnologia. Além disso, também foi trazido para nossa atenção o plugin APOC para realizar a integração entre MongoDB e Neo4j, solidificando a ferramenta como nossa escolha.
 
 ## 6. Desenvolvimento
 
-### Mineração dos dados com Python
+### Extração dos dados com Python
 A mineração dos dados se deu de maneira consideravelmente simples, visto que existe uma API do arXiv para python, então só foi necessário aprender a usá-la e projetar um código que nos permita obter uma quantidade considerável de códigos.
 
 A API possui uma função chamada “download_source”, que nos permite baixar o código fonte tex, bibtex e bbl que foram usados para gerar o pdf dos artigos porém, ele não estava funcionando adequadamente no windows, então foi necessário fazer o seguinte fix:
@@ -273,6 +284,7 @@ MERGE (p)-[:CITES]->(p2)
 MERGE (p2)-[:IS_CITED_BY]->(p);
 ```
 Nele obtemos os dados do mongodb usando o APOC, só que antes de pegarmos os dados brutos como estão, processamos um pouco.
+
 Antes disso, o COMANDO_MONGO é
 ```JSON
 [
@@ -340,6 +352,14 @@ Em seguida executamos mais unwinds. O do 'match_arxiv_id' serve para separar as 
 Na projeção, removemos o '_id' do mongodb, já que não o usamos. O 'title' e 'id' são usados no nó 'Paper', o 'name' é usado no nó 'Author', o 'category' é usado no nó 'Category'. Os últimos dois campos 'citation_title' e 'arxiv_id' são usados para criar os nós 'Paper' a partir das citações, também os usamos para criar as relações de 'CITES' e 'IS_CITED_BY'. Como as citações podem vir do 'bib' (no journal, booktitle, url, eprintype ou archiveprefix) ou do 'bbl' usamos um ifNull combinado com um cond para decidir como preencher o campo. Os split são usados para separar o 'arXiv:' ou o resto do html do id do artigo.
 Finalmente, no Neo4j então criamos os nós 'Paper', 'Author' e 'Category', com as relações 'WROTE', 'WRITTEN_BY' e 'CATEGORY' usando os dados mostrados anteriormente.
 A criação do 'CITES' e 'IS_CITED_BY' estão separados para poder checar com 'WITH p, value WHERE value.arxiv_id IS NOT NULL' se o valor não é nulo antes de criar o resto dos 'Paper's com as relações.
+
+Além do comando principal utilizado para adicionar os dados no sistema do Neo4J, foram criados índices para facilitar a inserção/atualização de dados além de diminuir o tempo de resposta das consultas:
+
+```Cypher
+CREATE INDEX paper_id IF NOT EXISTS FOR (p:Paper) ON (p.id);
+CREATE INDEX author_name IF NOT EXISTS FOR (a:Author) ON (a.name);
+CREATE INDEX categories_category IF NOT EXISTS FOR (c:Category) ON (c.category);
+```
 
 A seguir estão algumas consultas que são possíveis e esperadas com o sistema feito:
 
