@@ -361,14 +361,22 @@ CREATE INDEX author_name IF NOT EXISTS FOR (a:Author) ON (a.name);
 CREATE INDEX categories_category IF NOT EXISTS FOR (c:Category) ON (c.category);
 ```
 
+A seguinte imagem mostra uma parte dos dados importados no Neo4j, vale mencionar que alguns fatores limitaram a quantidade de nós e arcos nessa imagem, como limites de exibição de nós do próprio Neo4j:
+
+![grafo](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/all_nodes.png "Grafo")
+
+
 A seguir estão algumas consultas que são possíveis e esperadas com o sistema feito:
 
 1. Consulta para encontrar a partir de um nome de autor, todos os artigos escritos por ele que possuem colaboradores, além de quem são os colaboradores:
 ```Cypher
-MATCH (a:Author{name:"Tuopu Wen"})-[:WROTE]->(p:Paper)-[wb:WRITTEN_BY]->(coauthor:Author)
+MATCH (a:Author{name:"Onur Mutlu"})-[:WROTE]->(p:Paper)-[wb:WRITTEN_BY]->(coauthor:Author)
 WHERE a <> coauthor
 RETURN coauthor, p, wb
 ```
+
+![consulta_1](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_1.png "Consulta 1")
+
 
 2. Consulta para encontrar os artigos mais frequentemente citados dentro do banco de dados:
 ```Cypher
@@ -377,6 +385,9 @@ RETURN p.id AS PaperId, count(w) AS NumberOfCitations
 ORDER BY NumberOfCitations DESC
 LIMIT 10
 ```
+
+![consulta_2](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_2.png "Consulta 2")
+
 
 3. Consulta para encontrar os autores que escreveram mais artigos e suas colaborações mais frequentes:
 ```Cypher
@@ -388,11 +399,17 @@ LIMIT 10
 RETURN a1.name AS Author1, a2.name AS Author2, collaborations AS PapersWrittenTogether
 ```
 
+![consulta_3](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_3.png "Consulta 3")
+
+
 4. Consulta para encontrar artigos que contém duas categorias distintas, indicando uma pesquisa interdisciplinar:
 ```Cypher
 MATCH (c1:Category {category: 'cs.AI'})<-[:CATEGORY]-(p:Paper)-[:CATEGORY]->(c2:Category {category: 'q-bio.NC'})
 RETURN p.title AS PaperTitle, p.id AS PaperID
 ```
+
+![consulta_4](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_1.png "Consulta 4")
+
 
 5. Consulta para encontrar a maior sequência de citações entre artigos:
 ```Cypher
@@ -406,6 +423,8 @@ RETURN
 ORDER BY CitationPathLength DESC
 LIMIT 1
 ```
+
+![consulta_5](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_5.png "Consulta 5")
 
 
 ## 7. Dificuldades encontradas

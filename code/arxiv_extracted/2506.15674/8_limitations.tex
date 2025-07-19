@@ -1,7 +1,0 @@
-\section*{Limitations}
-
-While our study provides insights into the reasoning capabilities of current language models, there are a few limitations worth noting.
-
-Our evaluation focuses exclusively on open-source models. This decision was driven in part by the fact that many closed, API-based models do not expose raw reasoning traces, making them less suitable for detailed analysis. Working with open-source models, by contrast, offers full transparency and control over the inference process. It also eliminates potential confounding factors such as undocumented input/output pre/post-processing or sampling strategies inherent to proprietary APIs.
-
-Finally, our main analysis was conducted in a probing setup rather than a fully agentic one. While the agentic setup is arguably more reflective of real-world use cases, the probing configuration allows for more controlled experimentation and interpretability. Moreover, the computational cost of running even a single agentic benchmark split was prohibitive (up to 18 hours on 2 H100 GPUs). As such, we opted for a setup that allowed for broader coverage across models and testing conditions, with the trade-off of reduced ecological validity.
