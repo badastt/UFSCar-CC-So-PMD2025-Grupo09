@@ -408,7 +408,7 @@ MATCH (c1:Category {category: 'cs.AI'})<-[:CATEGORY]-(p:Paper)-[:CATEGORY]->(c2:
 RETURN p.title AS PaperTitle, p.id AS PaperID
 ```
 
-![consulta_4](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_1.png "Consulta 4")
+![consulta_4](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_4.png "Consulta 4")
 
 
 5. Consulta para encontrar a maior sequência de citações entre artigos:
