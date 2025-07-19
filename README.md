@@ -375,7 +375,7 @@ WHERE a <> coauthor
 RETURN coauthor, p, wb
 ```
 
-![consulta_1](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_1.png "Consulta 1")
+![consulta_1](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_1 "Consulta 1")
 
 
 2. Consulta para encontrar os artigos mais frequentemente citados dentro do banco de dados:
@@ -386,7 +386,7 @@ ORDER BY NumberOfCitations DESC
 LIMIT 10
 ```
 
-![consulta_2](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_2.png "Consulta 2")
+![consulta_2](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_2 "Consulta 2")
 
 
 3. Consulta para encontrar os autores que escreveram mais artigos e suas colaborações mais frequentes:
@@ -399,7 +399,7 @@ LIMIT 10
 RETURN a1.name AS Author1, a2.name AS Author2, collaborations AS PapersWrittenTogether
 ```
 
-![consulta_3](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_3.png "Consulta 3")
+![consulta_3](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_3 "Consulta 3")
 
 
 4. Consulta para encontrar artigos que contém duas categorias distintas, indicando uma pesquisa interdisciplinar:
@@ -408,7 +408,7 @@ MATCH (c1:Category {category: 'cs.AI'})<-[:CATEGORY]-(p:Paper)-[:CATEGORY]->(c2:
 RETURN p.title AS PaperTitle, p.id AS PaperID
 ```
 
-![consulta_4](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_4.png "Consulta 4")
+![consulta_4](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_4 "Consulta 4")
 
 
 5. Consulta para encontrar a maior sequência de citações entre artigos:
@@ -424,7 +424,7 @@ ORDER BY CitationPathLength DESC
 LIMIT 1
 ```
 
-![consulta_5](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_5.png "Consulta 5")
+![consulta_5](https://github.com/badastt/UFSCar-CC-So-PMD2025-Grupo09/blob/main/images/consulta_5 "Consulta 5")
 
 
 ## 7. Dificuldades encontradas
